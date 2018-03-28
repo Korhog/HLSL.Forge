@@ -1,0 +1,32 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HLSL.Controls.UI">
+
+    <Style TargetType="local:FColor" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:FColor">
+                    <Border
+                        Background="#0d0d0d"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <ColorSpectrum Width="120" Height="120"/>
+                            <StackPanel Grid.Column="1" Width="160">
+                                <Slider Minimum="0" Maximum="255"/>
+                                <Slider Minimum="0" Maximum="255"/>
+                                <Slider Minimum="0" Maximum="255"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

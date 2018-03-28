@@ -9,6 +9,7 @@ namespace ShaderForge
     using rMind.Nodes;
 
     using HLSL.Elements;
+    using System;
 
     public sealed partial class MainPage : Page
     {
@@ -26,6 +27,7 @@ namespace ShaderForge
             CreateMaterialNode();
 
             canvasController.Draw();
+            dx.StartRenderLoop();
         }
 
         void CreateMaterialNode()
@@ -51,8 +53,16 @@ namespace ShaderForge
         }
 
         private void OnCompile(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            dx.CompilePixelShader();
+        {  
+            try
+            {
+                dx.CompilePixelShader("");
+            }
+            catch(Exception ex)
+            {
+                var l = ex.Message;
+            }
+            
         }
     }
 }

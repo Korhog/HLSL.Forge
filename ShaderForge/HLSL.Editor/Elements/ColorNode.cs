@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Windows.UI;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using HLSL.Controls.UI;
 
 namespace HLSL.Elements
 {
     using rMind.Elements;
     using rMind.Content.Row;
     using rMind.Nodes;
-    using Windows.UI;
-    using Windows.UI.Xaml.Media;
 
     public class ColorNode : HeaderRowContainerBase
     {
@@ -72,6 +71,17 @@ namespace HLSL.Elements
                     Stroke = new SolidColorBrush(Colors.DeepSkyBlue)
                 }
             });
+        }
+
+        protected override void EditButtonClick(object sender, RoutedEventArgs args)
+        {
+            Flyout fl = new Flyout
+            {
+                Placement = FlyoutPlacementMode.Bottom,
+                Content = new FColor()                
+            };
+
+            fl.ShowAt(m_header_rect);           
         }
     }
 }

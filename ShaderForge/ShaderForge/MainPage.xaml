@@ -24,8 +24,10 @@
 
         <Border Grid.Column="1" Background="#0d0d0d">
             <StackPanel>
-                <dx:DXSwapShainPanel x:Name="dx" Height="250" Width="350"/>
-                <Button Content="Compile" Click="OnCompile"/>
+                <dx:D3DRenderPanel x:Name="dx" Height="250" Width="350"/>
+                <StackPanel Orientation="Horizontal" Background="Gray">
+                    <Button Content="Compile" Click="OnCompile" />
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid> 

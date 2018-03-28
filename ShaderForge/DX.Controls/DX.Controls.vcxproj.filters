@@ -5,13 +5,52 @@
       <UniqueIdentifier>a408091f-7def-4809-ba7b-82c0fbaf04d3</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="XAML">
+      <UniqueIdentifier>{7cc4a5df-215b-4b25-8ccf-ca8771c595ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{9fb3f283-0f36-47c7-a929-003bfe7a24ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL">
+      <UniqueIdentifier>{1347e903-e8a1-4038-b2c6-a46d6edc0002}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="..\DX.Controls_\DXPanel.cpp" />
+    <ClCompile Include="XAML\D3DRenderPanel.cpp">
+      <Filter>XAML</Filter>
+    </ClCompile>
+    <ClCompile Include="XAML\DXPanelBase.cpp">
+      <Filter>XAML</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="..\DX.Controls_\DXPanel.h" />
+    <ClInclude Include="XAML\DXPanelBase.h">
+      <Filter>XAML</Filter>
+    </ClInclude>
+    <ClInclude Include="XAML\D3DRenderPanel.h">
+      <Filter>XAML</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\DXTools.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\StepTimer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\ShaderStructures.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="HLSL\ShaderCompiler.h">
+      <Filter>HLSL</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
