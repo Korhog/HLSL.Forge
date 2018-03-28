@@ -74,14 +74,16 @@ namespace HLSL.Elements
         }
 
         protected override void EditButtonClick(object sender, RoutedEventArgs args)
-        {
+        { 
+            /*
             Flyout fl = new Flyout
             {
                 Placement = FlyoutPlacementMode.Bottom,
                 Content = new FColor()                
             };
 
-            fl.ShowAt(m_header_rect);           
+            fl.ShowAt(m_header_rect);   
+            */
         }
     }
 }

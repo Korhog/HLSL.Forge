@@ -2,7 +2,7 @@
 #include "XAML\D3DRenderPanel.h"
 
 #include "Utils\DXTools.h"
-
+#include <iostream>
 #include <DirectXMath.h> 
 #include <DirectXColors.h> 
 #include <math.h> 
@@ -10,7 +10,7 @@
 #include <windows.ui.xaml.media.dxinterop.h> 
 
 #include <d3dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
+//#pragma comment(lib, "d3dcompiler.lib")
 
 using namespace Microsoft::WRL;
 using namespace Platform;
@@ -401,46 +401,41 @@ namespace DXControls
 
 	void D3DRenderPanel::CompilePixelShader(Platform::String ^data)
 	{
-		const std::string shaderSource =
-			"struct PixelShaderInput\n"
-			"{\n"
-			"    float3 color : COLOR0;\n"
-			"};\n\n"
-			"float4 min(PixelShaderInput input) : SV_TARGET\n"
-			"{\n"
-			"    return float4(1.0f, 1.0f, 0.0f, 1.0f);\n"
-			"}";
+		const std::string shaderSource = "float4 main() : SV_TARGET\n {\n return float4(1.0f, 1.0f, 0.0f, 1.0f);\n };\n\n";
 
 		ComPtr<ID3DBlob> pErrors;
 
-		D3D_SHADER_MACRO d3dMacro[2];
-
-		ZeroMemory(d3dMacro, sizeof(d3dMacro));
-
-		d3dMacro[0].Definition = "1";
-		d3dMacro[0].Name = "USING_DXBC";
-
-		LPCSTR pText = shaderSource.c_str();
+		UINT compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_WARNINGS_ARE_ERRORS | D3DCOMPILE_SKIP_OPTIMIZATION;
 		
-		ID3DBlob* pShaderCode = NULL;
-		ID3DBlob* errorBlob = NULL;
+		ID3DBlob* pShaderCode = nullptr;
+		ID3DBlob* errorBlob = nullptr;
 
-		HRESULT hr = D3DCompile(
-			pText, 
-			strlen(pText), 
+		HRESULT hr = D3DCompile2(
+			&shaderSource[0],
+			shaderSource.length(),
+			"shader", 
 			NULL, 
-			d3dMacro, 
-			nullptr, 
+			NULL,
 			"main", 
 			"ps_5_0", 
+			compileFlags,
+			0, 
+			0,
 			NULL,
-			NULL, 
+			0,
 			&pShaderCode, 
 			&errorBlob);
 
 		if (FAILED(hr))
 		{
-			auto msg = ref new Platform::String((const wchar_t*)errorBlob->GetBufferPointer());
+			char* error;
+			int size = errorBlob->GetBufferSize();
+			error = new char[size / 4];
+			error = static_cast<char*> (errorBlob->GetBufferPointer());
+
+			cout << error;
+
+			auto msg = ref new Platform::String((const wchar_t*)error);
 			errorBlob->Release();
 			throw Platform::Exception::CreateException(hr, msg);
 		}
