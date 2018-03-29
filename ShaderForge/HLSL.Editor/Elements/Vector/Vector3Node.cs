@@ -7,13 +7,78 @@ using System.Threading.Tasks;
 namespace HLSL.Elements
 {
     using Base;
+    using rMind.Content.Row;
     using rMind.Elements;
+    using rMind.Nodes;
+    using Windows.UI;
+    using Windows.UI.Xaml.Media;
 
     public class Vector3Node : RowContainerBase, IHLSLEditorNode
     {
         public Vector3Node(rMindBaseController parent) : base(parent)
         {
-
+            AccentColor = Colors.DarkBlue;
+            // Green
+            AddRow(new rMindRow
+            {
+                InputNodeType = rMindNodeConnectionType.None,
+                OutputNode = new Node(this)
+                {
+                    NodeValueFormat = NodeValueFormat.FLOAT4,
+                    UseAccentColor = false,
+                    IDS = "vector",
+                    Label = "vector3",
+                    ConnectionType = rMindNodeConnectionType.Container,
+                    NodeOrientation = rMindNodeOriantation.Right,
+                    Stroke = new SolidColorBrush(Colors.Green)
+                }
+            });
+            AddSeparator();
+            // x | r
+            AddRow(new rMindRow
+            {
+                InputNodeType = rMindNodeConnectionType.None,
+                OutputNode = new Node(this)
+                {
+                    NodeValueFormat = NodeValueFormat.FLOAT4,
+                    UseAccentColor = false,
+                    IDS = "X",
+                    Label = "X",
+                    ConnectionType = rMindNodeConnectionType.Container,
+                    NodeOrientation = rMindNodeOriantation.Right,
+                    Stroke = new SolidColorBrush(Colors.IndianRed)
+                }
+            });
+            // y | g
+            AddRow(new rMindRow
+            {
+                InputNodeType = rMindNodeConnectionType.None,
+                OutputNode = new Node(this)
+                {
+                    NodeValueFormat = NodeValueFormat.FLOAT4,
+                    UseAccentColor = false,
+                    IDS = "Y",
+                    Label = "Y",
+                    ConnectionType = rMindNodeConnectionType.Container,
+                    NodeOrientation = rMindNodeOriantation.Right,
+                    Stroke = new SolidColorBrush(Colors.Green)
+                }
+            });
+            // z | b
+            AddRow(new rMindRow
+            {
+                InputNodeType = rMindNodeConnectionType.None,
+                OutputNode = new Node(this)
+                {
+                    NodeValueFormat = NodeValueFormat.FLOAT4,
+                    UseAccentColor = false,
+                    IDS = "Z",
+                    Label = "Z",
+                    ConnectionType = rMindNodeConnectionType.Container,
+                    NodeOrientation = rMindNodeOriantation.Right,
+                    Stroke = new SolidColorBrush(Colors.DeepSkyBlue)
+                }
+            });
         }
 
         public string GetNodeValue(Node sender)

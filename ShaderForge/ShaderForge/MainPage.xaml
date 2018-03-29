@@ -13,14 +13,19 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>            
         </Grid.ColumnDefinitions>
-        
-        <ScrollViewer x:Name="scroll">
-            <Canvas x:Name="canvas"/>
+
+        <ScrollViewer x:Name="scroll" UseLayoutRounding="True">
+            <Canvas x:Name="canvas" Width="1000" Height="1000" UseLayoutRounding="True"/>
         </ScrollViewer>
 
-        <Button Width="40" Height="40" VerticalAlignment="Top" Margin="20" Click="OnAdd"> 
-            <FontIcon Glyph="&#xE109;" FontSize="16" Foreground="White"/>
-        </Button>
+        <StackPanel>
+            <Button Width="40" Height="40" VerticalAlignment="Top" Margin="20" Click="OnAdd"> 
+                <FontIcon Glyph="&#xE109;" FontSize="16" Foreground="White"/>
+            </Button>
+            <Button Width="40" Height="40" VerticalAlignment="Top" Margin="20" Click="OnAddVector3">
+                <FontIcon Glyph="&#xE109;" FontSize="16" Foreground="White"/>
+            </Button>
+        </StackPanel>
 
         <Border Grid.Column="1" Background="#0d0d0d">
             <StackPanel>

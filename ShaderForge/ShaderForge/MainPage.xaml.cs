@@ -67,5 +67,12 @@ namespace ShaderForge
             }
             
         }
+
+        private void OnAddVector3(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var vector = new Vector3Node(rootController);
+            vector.Translate(new rMind.Types.Vector2(100, 100));
+            rootController.AddElement(vector);
+        }
     }
 }
