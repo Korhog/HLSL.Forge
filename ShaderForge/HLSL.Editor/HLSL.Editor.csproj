@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Elements\Base\HeaderRowContainerBase.cs" />
+    <Compile Include="Elements\Base\IHLSLEditorNode.cs" />
     <Compile Include="Elements\Base\Node.cs" />
     <Compile Include="Elements\Base\RowContainerBase.cs" />
     <Compile Include="Elements\ColorNode.cs" />
@@ -127,6 +128,10 @@
     <ProjectReference Include="..\..\..\rmind\src\MyRoboMindMain\rMindBase\rMind.Base.csproj">
       <Project>{709002b9-916f-481f-981b-6f4f0c2b51db}</Project>
       <Name>rMind.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\rmind\src\MyRoboMindMain\rMindStorage\rMind.Storage.csproj">
+      <Project>{926d5c3d-0424-454e-b78b-b50731744d7b}</Project>
+      <Name>rMind.Storage</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\rmind\src\MyRoboMindMain\rMindTheme\rMind.Theme.csproj">
       <Project>{458f5c99-d7e2-481a-baef-db0d694a0f8a}</Project>

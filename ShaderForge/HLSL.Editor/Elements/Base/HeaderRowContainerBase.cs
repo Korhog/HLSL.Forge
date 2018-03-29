@@ -8,14 +8,20 @@ namespace HLSL.Elements
 {
     using rMind.Elements;
     using rMind.Content;
+    using HLSL.Elements.Base;
 
-    public abstract class HeaderRowContainerBase : rMindHeaderRowContainer
+    public abstract class HeaderRowContainerBase : rMindHeaderRowContainer, IHLSLEditorNode
     {
         public HeaderRowContainerBase(rMindBaseController parent) : base(parent)
         {
             AccentColor = Colors.DarkGray;
             BorderThickness = new Thickness(1);
             BorderRadius = new CornerRadius(3);
+        }
+
+        public virtual string GetNodeValue(Node sender)
+        {
+            return null;
         }
 
         public override void Init()
