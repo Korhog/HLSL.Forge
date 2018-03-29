@@ -30,9 +30,11 @@ namespace ShaderForge
             dx.StartRenderLoop();
         }
 
+        Material material;
+
         void CreateMaterialNode()
         {
-            var material = new Material(rootController)
+            material = new Material(rootController)
             {
                 Header = "Material",
                 CanEdit = false
@@ -56,7 +58,8 @@ namespace ShaderForge
         {  
             try
             {
-                dx.CompilePixelShader("");
+                var shader = material.GetPixelShader();
+                dx.CompilePixelShader(shader);
             }
             catch(Exception ex)
             {

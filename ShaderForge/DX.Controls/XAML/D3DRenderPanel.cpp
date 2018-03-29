@@ -1,4 +1,5 @@
 #include "pch.h"
+
 #include "XAML\D3DRenderPanel.h"
 
 #include "Utils\DXTools.h"
@@ -134,8 +135,9 @@ namespace DXControls
 
 			static const D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
 			{
-				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-				{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
+				{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+				{ "COLOR",    0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			};
 
 			ThrowIfFailed(
@@ -205,16 +207,39 @@ namespace DXControls
 		auto createCubeTask = (createPSTask && createVSTask).then([this]() {
 
 			// Load mesh vertices. Each vertex has a position and a color. 
-			static const VertexPositionColor cubeVertices[] =
+			static const VertexFull cubeVertices[] =
 			{
-				{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, 0.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f, -0.5f, 0.5f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
-				{ XMFLOAT3(-0.5f, 0.5f, -0.5f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f, 0.5f, 0.5f), XMFLOAT3(0.0f, 1.0f, 1.0f) },
-				{ XMFLOAT3(0.5f, -0.5f, -0.5f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-				{ XMFLOAT3(0.5f, -0.5f, 0.5f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
-				{ XMFLOAT3(0.5f, 0.5f, -0.5f), XMFLOAT3(1.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT3(1.0f, 1.0f, 1.0f) },
+				// Передняя грань
+				{ XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
+				{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+				{ XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) },
+				// Задняя грань
+				{ XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
+
+				// Нижняя грань
+				{ XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
+				{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+				{ XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) },
+				// Верхняя грань
+				{ XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },	
+				// левая грань
+				{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
+				{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+				// Верхняя грань
+				{ XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
+				{ XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+				{ XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
 			};
 
 			D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
@@ -237,23 +262,18 @@ namespace DXControls
 			// first triangle of this mesh. 
 			static const unsigned short cubeIndices[] =
 			{
-				0, 2, 1, // -x 
-				1, 2, 3,
-
-				4, 5, 6, // +x 
-				5, 7, 6,
-
-				0, 1, 5, // -y 
-				0, 5, 4,
-
-				2, 6, 7, // +y 
-				2, 7, 3,
-
-				0, 4, 6, // -z 
-				0, 6, 2,
-
-				1, 3, 7, // +z 
-				1, 7, 5,
+				 0,  2,  1, // +z
+				 0,  3,  2,
+				 4,  5,  6, // -z 
+				 4,  6,  7,
+				 8,  9, 10, // -y 
+				 8, 10, 11,
+				12, 14, 13, // -y 
+				12, 15, 14,
+				16, 17, 18, // -x
+				16, 18, 19,
+				20, 22, 21, // -x
+				20, 23, 22,
 			};
 
 			m_indexCount = ARRAYSIZE(cubeIndices);
@@ -348,7 +368,7 @@ namespace DXControls
 		);
 
 		// Each vertex is one instance of the VertexPositionColor struct. 
-		UINT stride = sizeof(VertexPositionColor);
+		UINT stride = sizeof(VertexFull);
 		UINT offset = 0;
 		m_d3dContext->IASetVertexBuffers(
 			0,
@@ -401,59 +421,39 @@ namespace DXControls
 
 	void D3DRenderPanel::CompilePixelShader(Platform::String ^data)
 	{
-		const std::string shaderSource =
-			"struct PixelShaderInput\n"
-			"{\n"
-			"    float3 color : COLOR0;\n"
-			"};\n\n"
-			"float4 min(PixelShaderInput input) : SV_TARGET\n"
-			"{\n"
-			"    return float4(1.0f, 1.0f, 0.0f, 1.0f);\n"
-			"}";
-
-		ComPtr<ID3DBlob> pErrors;
-
-		D3D_SHADER_MACRO d3dMacro[2];
-
-		ZeroMemory(d3dMacro, sizeof(d3dMacro));
-
-		d3dMacro[0].Definition = "1";
-		d3dMacro[0].Name = "USING_DXBC";
-
-		LPCSTR pText = shaderSource.c_str();
+		const std::string shaderSource = std::string(data->Begin(), data->End());
 		
-		ID3DBlob* pShaderCode = NULL;
-		ID3DBlob* errorBlob = NULL;
+		ComPtr<ID3DBlob> pShaderCode;
+		ComPtr<ID3DBlob> errorBlob;
+
+		UINT compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_VALIDATION | D3DCOMPILE_SKIP_OPTIMIZATION;
 
 		HRESULT hr = D3DCompile(
-			pText, 
-			strlen(pText), 
-			NULL, 
-			d3dMacro, 
+			shaderSource.c_str(), 
+			shaderSource.length(),
+			nullptr,
 			nullptr, 
+			nullptr,
 			"main", 
-			"ps_5_0", 
-			NULL,
-			NULL, 
+			"ps_4_0", 
+			compileFlags,
+			0, 
 			&pShaderCode, 
 			&errorBlob);
 
 		if (FAILED(hr))
 		{
 			auto msg = ref new Platform::String((const wchar_t*)errorBlob->GetBufferPointer());
-			errorBlob->Release();
 			throw Platform::Exception::CreateException(hr, msg);
 		}
 		
 		if (hr == S_OK) {
-			throw Platform::Exception::CreateException(hr, "success");
-			ComPtr<ID3D11PixelShader> ps;
+			ComPtr<ID3D11PixelShader> pixelShader;
 			ThrowIfFailed(m_d3dDevice->CreatePixelShader(
 				pShaderCode->GetBufferPointer(),
 				pShaderCode->GetBufferSize(),
 				nullptr,
-				&ps));
-			ps.As(&m_pixelShader);
+				&m_pixelShader));
 		}		
 	}		
 	
