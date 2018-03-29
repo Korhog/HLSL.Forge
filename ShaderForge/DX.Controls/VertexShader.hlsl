@@ -30,7 +30,7 @@ VertexShaderOutput main(VertexShaderInput input)
 	output.pos = pos;	
 
 	float4 normal = float4(input.normal, 1.0f);
-	// Transform the vertex position into projected space.
+	// Transform the vertex normal into projected space.
 	normal = mul(normal, model);
 	normal = mul(normal, view);
 	normal = mul(normal, projection);
