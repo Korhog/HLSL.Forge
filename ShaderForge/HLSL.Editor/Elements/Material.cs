@@ -32,12 +32,17 @@ namespace HLSL.Elements
         const string DefaultTemplatePS = @"
         struct PixelShaderInput
         {{
-            float3 color : COLOR0;
+            float3 color : COLOR0;	
+	        float3 normal: NORMAL;
 		}};
 
         float4 main(PixelShaderInput input) : SV_TARGET
 		{{
+            float3 l = float3(1.0f, 1.0f, 1.0f);
             float4 color = {0};
+            float f = dot(normalize(input.normal), normalize(l));
+            color = color * f;
+            
 		    return color;
         }};";
 

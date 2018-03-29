@@ -113,6 +113,7 @@
     <Compile Include="Elements\ColorNode.cs" />
     <Compile Include="Elements\Material.cs" />
     <Compile Include="Elements\MathNodeBase.cs" />
+    <Compile Include="Elements\Vector\Vector3Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\HLSL.Editor.rd.xml" />
   </ItemGroup>
