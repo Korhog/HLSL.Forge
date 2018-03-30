@@ -1,0 +1,289 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HLSL.Controls">
+    
+    <DataTemplate x:Key="Folder">
+        <Border Height="50"
+                BorderThickness="0,0,0,1">
+
+            <Border.BorderBrush>
+                <SolidColorBrush Color="#575C6A"/>
+            </Border.BorderBrush>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="1" 
+                        Grid.ColumnSpan="2" 
+                        BorderThickness="1,0,0,0">
+                    <Border.BorderBrush>
+                        <SolidColorBrush Color="#575C6A"/>
+                    </Border.BorderBrush>
+
+                </Border>
+
+                <FontIcon Glyph="&#xE8B7;"  
+                          Foreground="PaleVioletRed"
+                          FontSize="16"
+                          Visibility="{Binding Folder}"/>
+
+                <TextBlock Text="{Binding Name}"
+                           Foreground="LightGray"
+                           FontWeight="SemiLight" 
+                           FontSize="14"
+                           VerticalAlignment="Center"
+                           Margin="10"               
+                           Grid.Column="1">
+                </TextBlock>
+                <FontIcon Glyph="&#xE970;"
+                          Foreground="LawnGreen"
+                          Grid.Column="2" 
+                          FontSize="12"
+                          Margin="10"
+                          Visibility="{Binding Folder}"/>
+            </Grid>
+        </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="Item">
+        <Border BorderBrush="#575C6A"                 
+                Height="50"
+                BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Ellipse Width="6" 
+                         Height="6"                          
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center">
+                    <Ellipse.Fill>
+                        <SolidColorBrush Color="White" x:Name="DotBrush"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+
+                <Border BorderBrush="#575C6A"
+                        Grid.Column="1"
+                        BorderThickness="1,0,0,0">
+                    <StackPanel  Margin="10,0,0,0"
+                                 VerticalAlignment="Center" >
+                        <TextBlock Text="{Binding Name}" 
+                                   Foreground="LightGray"
+                                   FontWeight="SemiLight" 
+                                   FontSize="14"/>
+                        <TextBlock Text="{Binding SemanticName}" 
+                                   Foreground="LightGray"
+                                   FontSize="12"                                                                
+                                   FontWeight="Light"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <local:TSITemplateSelector x:Key="TemplateSelector"
+                              DefaultTemplate="{StaticResource ResourceKey=Folder}"
+                              ItemTemplate="{StaticResource ResourceKey=Item}"/>
+
+    <Style x:Key="TreeListView" TargetType="ListView">
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="MinWidth" Value="50"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="AllowDrop" Value="True"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Grid Background="Transparent">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal"/>
+                                            <VisualState x:Name="Selected">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="SelectorBrush" Storyboard.TargetProperty="Color" To="White" />
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="PointerOver">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="SelectorBrush" Storyboard.TargetProperty="Color" To="Gray" />
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="PointerOverSelected">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="SelectorBrush" Storyboard.TargetProperty="Color" To="White" />
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="PointerOverPressed">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="SelectorBrush" Storyboard.TargetProperty="Color" To="White" />
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Pressed">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="SelectorBrush" Storyboard.TargetProperty="Color" To="Gray" />
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="PressedSelected">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="SelectorBrush" Storyboard.TargetProperty="Color" To="Gray" />
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+
+                                    <ContentPresenter/>
+                                    <Border Width="4" HorizontalAlignment="Left" Margin="1,1,0,2">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="Transparent" x:Name="SelectorBrush"/>
+                                        </Border.Background>
+                                    </Border>
+                                </Grid>
+
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemTemplateSelector" Value="{StaticResource ResourceKey=TemplateSelector}"/>
+
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition/>
+                    <!--ContentThemeTransition/-->
+                    <ReorderThemeTransition/>
+                    <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:TreeSelector" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:TreeSelector">
+                    <Border Width="{TemplateBinding Width}"                             
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border.Background>
+                            <AcrylicBrush TintOpacity="0.27"
+                                          TintColor="#0d0d0d"/>
+                        </Border.Background>
+                        <Grid Width="{TemplateBinding Width}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Background="#575C6A" Grid.ColumnSpan="3"/>
+
+                            <Button Width="50" 
+                                    Height="50"                                     
+                                    Background="Transparent"
+                                    Visibility="Collapsed"
+                                    x:Name="PART_BackButton">
+                                <FontIcon Glyph="&#xE0A6;" FontSize="15"/>
+                            </Button>
+
+                            <TextBlock Grid.Column="1" 
+                                       Text="Library" 
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       Foreground="WhiteSmoke"
+                                       FontWeight="SemiBold"/>
+
+                            <Button Width="40" 
+                                    Height="40" 
+                                    Margin="5"                                    
+                                    Background="Transparent"
+                                    x:Name="PART_AddButton" 
+                                    Foreground="LawnGreen"
+                                    Grid.Column="3">
+                                <FontIcon Glyph="&#xE109;" FontSize="15"/>
+                            </Button>
+
+                            <ScrollViewer Grid.Row="1"                                          
+                                          VerticalScrollBarVisibility="Hidden"
+                                          Grid.ColumnSpan="3">
+                                <Grid Margin="0,0,0,-1">
+                                    <ListView Style="{StaticResource TreeListView}"
+                                              Width="{TemplateBinding Width}"
+                                              MinWidth="130"
+                                              IsHitTestVisible="False"
+                                              x:Name="PART_SlideItems">
+                                        <ListView.RenderTransform>
+                                            <TranslateTransform x:Name="PART_SlideSubTransform"/>
+                                        </ListView.RenderTransform>
+                                    </ListView>
+
+                                    <ListView CanDragItems="False"  
+                                              SelectionMode="None"                                              
+                                              Style="{StaticResource TreeListView}"                               
+                                              Width="{TemplateBinding Width}"
+                                              MinWidth="130"
+                                              IsItemClickEnabled="True"
+                                              x:Name="PART_Items"                                              
+                                              ItemsSource="{Binding Children}">
+                                        <ListView.RenderTransform>
+                                            <TranslateTransform x:Name="PART_SlideTransform"/>
+                                        </ListView.RenderTransform>
+                                    </ListView>
+                                </Grid>
+                            </ScrollViewer>
+
+                            <Border Width="70" 
+                                    Height="70" 
+                                    Margin="4"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="2"
+                                    Grid.Row="2"
+                                    AllowDrop="True"
+                                    HorizontalAlignment="Right"
+                                    Background="Transparent"
+                                    Visibility="Collapsed"
+                                    x:Name="PART_Bucked">
+                                <Grid>
+                                    <Rectangle Width="60" 
+                                               Height="60"
+                                               RadiusX="4"
+                                               RadiusY="4"                                               
+                                               StrokeDashCap="Square"
+                                               StrokeThickness="1"
+                                               StrokeDashArray="3 3"
+                                               Stroke="#55FFFFFF"/>
+                                    <FontIcon Glyph="&#xE107;" Foreground="#55FFFFFF" FontSize="16"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
+

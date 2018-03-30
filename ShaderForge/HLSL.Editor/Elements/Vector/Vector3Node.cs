@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace HLSL.Elements
 {
     using Base;
+    using HLSL.Values;
     using rMind.Content.Row;
     using rMind.Elements;
     using rMind.Nodes;
@@ -24,7 +25,7 @@ namespace HLSL.Elements
                 InputNodeType = rMindNodeConnectionType.None,
                 OutputNode = new Node(this)
                 {
-                    NodeValueFormat = NodeValueFormat.FLOAT4,
+                    HLSLValueBaseType = HLSLValueBaseType.FLOAT3,
                     UseAccentColor = false,
                     IDS = "vector",
                     Label = "vector3",
@@ -40,7 +41,8 @@ namespace HLSL.Elements
                 InputNodeType = rMindNodeConnectionType.None,
                 OutputNode = new Node(this)
                 {
-                    NodeValueFormat = NodeValueFormat.FLOAT4,
+                    HLSLValueBaseType = HLSLValueBaseType.FLOAT,
+                    HLSLValueSubType = HLSLValueSubType.X_R,
                     UseAccentColor = false,
                     IDS = "X",
                     Label = "X",
@@ -55,7 +57,8 @@ namespace HLSL.Elements
                 InputNodeType = rMindNodeConnectionType.None,
                 OutputNode = new Node(this)
                 {
-                    NodeValueFormat = NodeValueFormat.FLOAT4,
+                    HLSLValueBaseType = HLSLValueBaseType.FLOAT,
+                    HLSLValueSubType = HLSLValueSubType.Y_G,
                     UseAccentColor = false,
                     IDS = "Y",
                     Label = "Y",
@@ -70,7 +73,8 @@ namespace HLSL.Elements
                 InputNodeType = rMindNodeConnectionType.None,
                 OutputNode = new Node(this)
                 {
-                    NodeValueFormat = NodeValueFormat.FLOAT4,
+                    HLSLValueBaseType = HLSLValueBaseType.FLOAT,
+                    HLSLValueSubType = HLSLValueSubType.Z_B,
                     UseAccentColor = false,
                     IDS = "Z",
                     Label = "Z",

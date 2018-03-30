@@ -10,24 +10,35 @@ namespace ShaderForge
 
     using HLSL.Elements;
     using System;
+    using HLSL.Editor.Elements.Base;
+    using HLSL.Controls;
 
     public sealed partial class MainPage : Page
     {
         rMindCanvasController canvasController;
-        rMindBaseController rootController;
+        HLSLNodeController rootController;
 
         public MainPage()
         {
             this.InitializeComponent();
 
             canvasController = new rMindCanvasController(canvas, scroll);
-            rootController = new rMindBaseController(canvasController);
+            rootController = new HLSLNodeController(canvasController);
 
             canvasController.SetController(rootController);
             CreateMaterialNode();
 
             canvasController.Draw();
             dx.StartRenderLoop();
+
+            tree.SetRoot(HLSL.Editor.TreeBuilder.Build());
+            tree.OnSelectItem += (item) => {
+                var it = item as TreeSelectorItem;
+                if (it != null)
+                {
+                    rootController.CreateItem(it.Type);
+                }
+            };
         }
 
         Material material;

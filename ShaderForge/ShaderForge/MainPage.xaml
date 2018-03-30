@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dx="using:DXControls"
+    xmlns:editor="using:HLSL.Controls"
     mc:Ignorable="d">
 
     <Grid Background="#1d1d1d">
@@ -18,18 +19,17 @@
             <Canvas x:Name="canvas" Width="1000" Height="1000" UseLayoutRounding="True"/>
         </ScrollViewer>
 
-        <StackPanel>
-            <Button Width="40" Height="40" VerticalAlignment="Top" Margin="20" Click="OnAdd"> 
-                <FontIcon Glyph="&#xE109;" FontSize="16" Foreground="White"/>
-            </Button>
-            <Button Width="40" Height="40" VerticalAlignment="Top" Margin="20" Click="OnAddVector3">
-                <FontIcon Glyph="&#xE109;" FontSize="16" Foreground="White"/>
-            </Button>
-        </StackPanel>
+        <editor:TreeSelector x:Name="tree" 
+                             Foreground="White"
+                             Width="250" 
+                             MaxHeight="300" 
+                             VerticalAlignment="Top" 
+                             Margin="30"
+                             HorizontalAlignment="Left"/>
 
         <Border Grid.Column="1" Background="#0d0d0d">
             <StackPanel>
-                <dx:D3DRenderPanel x:Name="dx" Height="250" Width="350"/>
+                <dx:D3DRenderPanel x:Name="dx" Height="350" Width="350"/>
                 <StackPanel Orientation="Horizontal" Background="Gray">
                     <Button Content="Compile" Click="OnCompile" />
                 </StackPanel>

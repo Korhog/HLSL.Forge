@@ -1,26 +1,16 @@
 ﻿namespace HLSL.Elements.Base
 {
+    using Values;
     using rMind.Elements;
     using rMind.Nodes;
-
-    /// <summary>
-    /// Форматы нодов
-    /// </summary>
-    public enum NodeValueFormat
-    {
-        NONE,
-        FLOAT,
-        FLOAT2,
-        FLOAT3,
-        FLOAT4,
-    }
 
     /// <summary>
     /// Node для Shader Forge
     /// </summary>
     public class Node : rMindBaseNode
     {
-        public NodeValueFormat NodeValueFormat { get; set; } = NodeValueFormat.NONE;
+        public HLSLValueBaseType HLSLValueBaseType { get; set; } = HLSLValueBaseType.NONE;
+        public HLSLValueSubType HLSLValueSubType { get; set; } = HLSLValueSubType.NONE;
 
         public Node(rMindBaseElement parent) : base(parent)
         {
@@ -34,7 +24,11 @@
             if (dot.ReverseDot.Node != null && dot.ReverseDot.Node is Node)
             {
                 Node node = dot.ReverseDot.Node as Node;
-                if (node.NodeValueFormat != NodeValueFormat) return false;
+                if (HLSLValueBaseType == node.HLSLValueBaseType)
+                    return true;
+
+                var conv = Converter.HLSLValueConverterContainer.Current();
+                return conv.CanConvert(HLSLValueBaseType, node.HLSLValueBaseType);
             }
 
             return true;

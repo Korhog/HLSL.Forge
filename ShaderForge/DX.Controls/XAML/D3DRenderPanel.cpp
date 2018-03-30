@@ -211,35 +211,35 @@ namespace DXControls
 			{
 				// Передняя грань
 				{ XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
-				{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-				{ XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
+				{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
+				{ XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
 				// Задняя грань
-				{ XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+				{ XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
 				{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
+				{ XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
 
 				// Нижняя грань
-				{ XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
-				{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
 				{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-				{ XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) },
+				{ XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
 				// Верхняя грань
-				{ XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },	
+				{ XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) },	
 				// левая грань
 				{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
-				{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
+				{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
+				{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
 				// Верхняя грань
-				{ XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
-				{ XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-				{ XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+				{ XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) },
+				{ XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) },
+				{ XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) },
+				{ XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) },
 			};
 
 			D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };

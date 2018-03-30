@@ -144,6 +144,10 @@
       <Project>{9a14d112-f9de-4e2d-9c76-f5965e467cb9}</Project>
       <Name>DX.Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HLSL.Controls\HLSL.Controls.csproj">
+      <Project>{fb8f9607-f2a4-4cc8-ad5f-f616be69975c}</Project>
+      <Name>HLSL.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HLSL.Editor\HLSL.Editor.csproj">
       <Project>{e5f6b850-12f4-4dd3-8a8e-4f26a95f244d}</Project>
       <Name>HLSL.Editor</Name>
