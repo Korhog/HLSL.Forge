@@ -106,14 +106,19 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Elements\Base\HeaderRowContainerBase.cs" />
+    <Compile Include="Elements\Base\Container\HeaderRowContainerBase.cs" />
     <Compile Include="Elements\Base\HLSLNodeController.cs" />
     <Compile Include="Elements\Base\IHLSLEditorNode.cs" />
+    <Compile Include="Elements\Base\IHLSLRequireDefine.cs" />
     <Compile Include="Elements\Base\Node.cs" />
-    <Compile Include="Elements\Base\RowContainerBase.cs" />
+    <Compile Include="Elements\Base\Container\RowContainerBase.cs" />
     <Compile Include="Elements\ColorNode.cs" />
+    <Compile Include="Elements\Global\Luminosity.cs" />
     <Compile Include="Elements\Material.cs" />
-    <Compile Include="Elements\MathNodeBase.cs" />
+    <Compile Include="Elements\Math\MathNodeBase.cs" />
+    <Compile Include="Elements\Math\MultipleNode.cs" />
+    <Compile Include="Elements\PixelInput\PSNormal.cs" />
+    <Compile Include="Elements\PixelInput\PSColor.cs" />
     <Compile Include="Elements\Vector\Vector3Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TreeBuilder.cs" />
@@ -150,6 +155,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Elements\Build-in\" />
     <Folder Include="Elements\Samplers\" />
     <Folder Include="Elements\Simple\" />
   </ItemGroup>

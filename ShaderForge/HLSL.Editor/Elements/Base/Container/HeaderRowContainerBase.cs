@@ -9,17 +9,16 @@ namespace HLSL.Elements
     using rMind.Elements;
     using rMind.Content;
     using HLSL.Elements.Base;
+    using HLSL.Values;
 
     public abstract class HeaderRowContainerBase : rMindHeaderRowContainer, IHLSLEditorNode
     {
         public HeaderRowContainerBase(rMindBaseController parent) : base(parent)
         {
-            AccentColor = Colors.DarkGray;
-            BorderThickness = new Thickness(1);
-            BorderRadius = new CornerRadius(3);
+            AccentColor = Colors.Black;
         }
 
-        public virtual string GetNodeValue(Node sender)
+        public virtual HLSLResult GetNodeValue(Node sender)
         {
             return null;
         }
@@ -27,13 +26,8 @@ namespace HLSL.Elements
         public override void Init()
         {
             base.Init();
-            m_selector = new Border()
-            {
-                Margin = new Thickness(2),
-                Background = new SolidColorBrush(Colors.Black),
-                IsHitTestVisible = false,
-                Visibility = Visibility.Collapsed
-            };
+            m_selector.Margin = new Thickness(-2);
+            m_selector.Background = new SolidColorBrush(Colors.SkyBlue);
         }
     }
 

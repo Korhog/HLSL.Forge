@@ -110,23 +110,38 @@ namespace HLSL.Elements
             picker.ShowAt(m_header_rect);     
         }
 
-        public override string GetNodeValue(Node sender)
+        public override HLSLResult GetNodeValue(Node sender)
         {
             string color = "1.0f";
 
-            if (sender.IDS == "R") color = string.Format("{0:0.0#}f", r).Replace(',', '.');
+            if (sender.IDS == "R") {
+                color = string.Format("{0:0.0#}f", r).Replace(',', '.');
+            }
             if (sender.IDS == "G") color = string.Format("{0:0.0#}f", g).Replace(',', '.');
             if (sender.IDS == "B") color = string.Format("{0:0.0#}f", b).Replace(',', '.');
-            if (sender.IDS == "A") return "1.0f";
+            if (sender.IDS == "A") color = "1.0f";
 
             if (sender.IDS == "color")
-                return string.Format(
+            {
+                color = string.Format(
                     "float4({0}, {1}, {2}, 1.0f)",
                     string.Format("{0:0.0#}f", r).Replace(',', '.'),
                     string.Format("{0:0.0#}f", g).Replace(',', '.'),
                     string.Format("{0:0.0#}f", b).Replace(',', '.'));
 
-            return color;
+                return new HLSLResult
+                {
+                    Value = color,
+                    HLSLValueBaseType = sender.HLSLValueBaseType
+                };
+            }
+
+            return new HLSLResult
+            {
+                Value = color,
+                HLSLValueBaseType = sender.HLSLValueBaseType,
+                HLSLValueSubType = sender.HLSLValueSubType
+            };
         }
     }
 }

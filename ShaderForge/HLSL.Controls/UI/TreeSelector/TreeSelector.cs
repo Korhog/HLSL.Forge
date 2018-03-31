@@ -172,6 +172,8 @@ namespace HLSL.Controls
 
         void Slide(bool forward)
         {
+            var slideTime = 100;
+
             Storyboard storyboard = new Storyboard();
             DoubleAnimation slideAnimation = new DoubleAnimation();
 
@@ -185,7 +187,7 @@ namespace HLSL.Controls
                 slideAnimation.From = -250;
                 slideAnimation.To = 0;
             }
-            slideAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(250));
+            slideAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(slideTime));
 
             Storyboard.SetTarget(slideAnimation, slideTransform);
             Storyboard.SetTargetProperty(slideAnimation, "X");
@@ -204,7 +206,7 @@ namespace HLSL.Controls
                 slideAnimation.From = 0;
                 slideAnimation.To = 250;
             }
-            slideAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(250));
+            slideAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(slideTime));
 
             Storyboard.SetTarget(slideAnimation, slideSubTransform);
             Storyboard.SetTargetProperty(slideAnimation, "X");

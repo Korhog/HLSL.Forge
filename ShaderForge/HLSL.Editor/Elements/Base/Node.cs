@@ -27,6 +27,9 @@
                 if (HLSLValueBaseType == node.HLSLValueBaseType)
                     return true;
 
+                if (HLSLValueBaseType == HLSLValueBaseType.ADAPTIVE || node.HLSLValueBaseType == HLSLValueBaseType.ADAPTIVE)
+                    return true;
+
                 var conv = Converter.HLSLValueConverterContainer.Current();
                 return conv.CanConvert(HLSLValueBaseType, node.HLSLValueBaseType);
             }
@@ -34,7 +37,7 @@
             return true;
         }
 
-        public virtual string GetValue()
+        public virtual HLSLResult GetValue()
         {
             return (Parent as IHLSLEditorNode)?.GetNodeValue(this);
         }

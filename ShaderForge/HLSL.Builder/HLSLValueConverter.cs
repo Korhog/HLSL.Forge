@@ -96,6 +96,23 @@ namespace HLSL.Converter
             return "";            
         }
 
+        public string Convert(HLSLResult input, HLSLValue target)
+        {
+            var pair = new HLSLValuePair
+            {
+                From = input.HLSLValueBaseType,
+                To = target.HLSLValueBaseType
+            };
+
+            if (CanConvert(pair))
+            {
+                var converter = converters[pair];
+                return converter.Convert(input.HLSLValueSubType, target.HLSLValueSubType, input.Value);
+            }
+
+            return "";
+        }
+
         private void InitializeConvertersFloatToVector()
         {
             HLSLValuePair pair;
@@ -142,7 +159,7 @@ namespace HLSL.Converter
                     case HLSLValueSubType.Z_B: return string.Format("float4(0.0f, 0.0f, {0}, 0.0f)", value);
                     case HLSLValueSubType.W_A: return string.Format("float4(0.0f, 0.0f, 0.0f, {0})", value);
                 }
-                return string.Format("float4({0}, {0}, {0}, {0})", value);
+                return string.Format("float4({0}, {0}, {0}, 1.0f)", value);
             });
         }
 
@@ -176,7 +193,7 @@ namespace HLSL.Converter
             converters[new HLSLValuePair { From = HLSLValueBaseType.FLOAT4, To = HLSLValueBaseType.FLOAT2 }] = new HLSLValueConverter(func);
 
             // float4 -> float3
-            pair = new HLSLValuePair { From = HLSLValueBaseType.FLOAT3, To = HLSLValueBaseType.FLOAT4 };
+            pair = new HLSLValuePair { From = HLSLValueBaseType.FLOAT4, To = HLSLValueBaseType.FLOAT3 };
             converters[pair] = new HLSLValueConverter((from, to, value) => {
                 return string.Format("float3({0}.xyz)", value);
             });

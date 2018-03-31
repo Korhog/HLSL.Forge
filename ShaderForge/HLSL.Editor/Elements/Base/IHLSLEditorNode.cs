@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace HLSL
 {
     using Elements.Base;
+    using HLSL.Values;
 
     public interface IHLSLEditorNode
     {
-        string GetNodeValue(Node sender);
+        HLSLResult GetNodeValue(Node sender);
     }
-
 }

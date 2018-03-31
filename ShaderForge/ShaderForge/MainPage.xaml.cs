@@ -48,21 +48,10 @@ namespace ShaderForge
             material = new Material(rootController)
             {
                 Header = "Material",
-                CanEdit = false
+                CanEdit = false,
+                Position = new rMind.Types.Vector2(350, 250)
             };
             rootController.AddElement(material);
-
-            rootController.AddElement(new ColorNode(rootController)
-            {
-                Header = "Color node",
-                CanEdit = true
-            });
-        }
-
-        private void OnAdd(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            rootController.AddElement(new MathNodeBase(rootController));
-           
         }
 
         private void OnCompile(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -75,8 +64,7 @@ namespace ShaderForge
             catch(Exception ex)
             {
                 var l = ex.Message;
-            }
-            
+            }            
         }
 
         private void OnAddVector3(object sender, Windows.UI.Xaml.RoutedEventArgs e)

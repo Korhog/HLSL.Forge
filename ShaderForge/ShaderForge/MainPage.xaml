@@ -16,7 +16,7 @@
         </Grid.ColumnDefinitions>
 
         <ScrollViewer x:Name="scroll" UseLayoutRounding="True">
-            <Canvas x:Name="canvas" Width="1000" Height="1000" UseLayoutRounding="True"/>
+            <Canvas x:Name="canvas" Width="1000" Height="1000" UseLayoutRounding="True" Background="Transparent"/>
         </ScrollViewer>
 
         <editor:TreeSelector x:Name="tree" 

@@ -9,15 +9,17 @@ namespace HLSL.Values
     /// <summary> base type used in DX shaders </summary>
     public enum HLSLValueBaseType
     {
-        NONE,
+        NONE = 0,
+
+        ADAPTIVE = 1,
         /// <summary> float </summary>
-        FLOAT,
+        FLOAT = 2,
         /// <summary> float </summary>
-        FLOAT2,
+        FLOAT2 = 3,
         /// <summary> float </summary>
-        FLOAT3,
+        FLOAT3 = 4,
         /// <summary> vector 4 </summary>
-        FLOAT4,
+        FLOAT4 = 5,
     }
 
     public enum HLSLValueSubType
@@ -40,4 +42,22 @@ namespace HLSL.Values
         public HLSLValueBaseType From { get; set; }
         public HLSLValueBaseType To { get; set; }
     } 
+
+    public class HLSLResult
+    {
+        public string Value { get; set; }
+        public HLSLValueBaseType HLSLValueBaseType { get; set; }
+        public HLSLValueSubType HLSLValueSubType { get; set; } = HLSLValueSubType.NONE;
+
+        public static HLSLResult Result(string value, HLSLValueBaseType baseType, HLSLValueSubType sub = HLSLValueSubType.NONE)
+        {
+            return new HLSLResult
+            {
+                Value = value,
+                HLSLValueBaseType = baseType,
+                HLSLValueSubType = sub
+            };
+        }
+    }
+
 }

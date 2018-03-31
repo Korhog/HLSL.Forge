@@ -27,7 +27,7 @@ namespace HLSL.Elements
 
         float4 main(PixelShaderInput input) : SV_TARGET
 		{
-		    return float4(input.color, 1.0f);
+		    return float4(1.0f, 0.0f, 1.0f, 1.0f);
         };";
 
         const string DefaultTemplatePS = @"
@@ -43,12 +43,8 @@ namespace HLSL.Elements
 		{{
             {0}
 
-            float3 posLight = float3(-1.0f, 1.0f, 1.0f) - input.world.xyz;
-
             float4 color = {1};
-            float f = dot(normalize(input.normal), normalize(posLight));
-            color = float4(input.color * f, 1.0f);
-            
+
 		    return color;
         }};";
 
@@ -68,7 +64,22 @@ namespace HLSL.Elements
                 OutputNodeType = rMindNodeConnectionType.None
             };
 
-            AddRow(row);
+            AddRow(row);            
+        }
+
+        /// <summary>
+        /// Инициализируем всякие переменные
+        /// </summary>
+        string GetPSDefine()
+        {
+            var definers = Parent.Items
+                .Where(x => x is IHLSLRequireDefine)
+                .GroupBy(x => x.GetType().Name)
+                .Select(g => g.FirstOrDefault() as IHLSLRequireDefine)
+                .Select(x => x.GetDefineCode())
+                .ToArray();
+
+            return string.Join("\n", definers);
         }
 
         public string GetPixelShader()
@@ -76,22 +87,29 @@ namespace HLSL.Elements
             if (m_nodes_link.ContainsKey("color")) {
                 var node = m_nodes_link["color"] as Node;
                 var reverseNode = node.GetReverseNodes().FirstOrDefault() as Node;
+
+                if (reverseNode == null)
+                    return DefaultPS;
+
                 var value = reverseNode.GetValue();
 
+
                 string color;
-                if (node.HLSLValueBaseType == reverseNode.HLSLValueBaseType)
+                if (node.HLSLValueBaseType == value.HLSLValueBaseType)
                 {
-                    color = value;
+                    color = value.Value;
                 }
                 else
                 {
                     color = HLSL.Converter.HLSLValueConverterContainer.Current().Convert(
-                        new HLSLValue { HLSLValueBaseType = reverseNode.HLSLValueBaseType, HLSLValueSubType = reverseNode.HLSLValueSubType },
-                        new HLSLValue { HLSLValueBaseType = node.HLSLValueBaseType },
-                        value
+                        value,
+                        new HLSLValue { HLSLValueBaseType = node.HLSLValueBaseType }
                     );
                 }
-                var init = "";
+                var init = GetPSDefine();
+
+
+
                 if (!string.IsNullOrEmpty(color))
                 { 
                     return string.Format(DefaultTemplatePS, init, color);

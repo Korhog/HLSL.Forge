@@ -85,7 +85,7 @@ namespace HLSL.Elements
             });
         }
 
-        public string GetNodeValue(Node sender)
+        public HLSLResult GetNodeValue(Node sender)
         {
             throw new NotImplementedException();
         }
