@@ -10,6 +10,8 @@
 #include <ppltasks.h> 
 #include <windows.ui.xaml.media.dxinterop.h> 
 
+#include <Mesh.h>
+
 #include <d3dcompiler.h>
 //#pragma comment(lib, "d3dcompiler.lib")
 
@@ -30,9 +32,10 @@ using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Interop;
 using namespace Concurrency;
 using namespace DirectX;
-using namespace D2D1;
 using namespace DXControls;
 using namespace DX;
+
+using namespace MarcusEngine::Mesh;
 
 namespace DXControls 
 {
@@ -205,91 +208,9 @@ namespace DXControls
 
 		// Once both shaders are loaded, create the mesh. 
 		auto createCubeTask = (createPSTask && createVSTask).then([this]() {
-
-			// Load mesh vertices. Each vertex has a position and a color. 
-			static const VertexFull cubeVertices[] =
-			{
-				// Передняя грань
-				{ XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
-				{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
-				{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
-				{ XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
-				// Задняя грань
-				{ XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f,  0.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
-
-				// Нижняя грань
-				{ XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-				{ XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f, -1.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
-				// Верхняя грань
-				{ XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) },
-				{ XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f,  1.0f,  0.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) },	
-				// левая грань
-				{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
-				{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
-				{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
-				{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(-1.0f,  0.0f,  0.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
-				// Верхняя грань
-				{ XMFLOAT3( 0.5f,  0.5f, -0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) },
-				{ XMFLOAT3( 0.5f,  0.5f,  0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) },
-				{ XMFLOAT3( 0.5f, -0.5f,  0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) },
-				{ XMFLOAT3( 0.5f, -0.5f, -0.5f), XMFLOAT3( 1.0f,  0.0f,  0.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) },
-			};
-
-			D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
-			vertexBufferData.pSysMem = cubeVertices;
-			vertexBufferData.SysMemPitch = 0;
-			vertexBufferData.SysMemSlicePitch = 0;
-			CD3D11_BUFFER_DESC vertexBufferDesc(sizeof(cubeVertices), D3D11_BIND_VERTEX_BUFFER);
-			ThrowIfFailed(
-				m_d3dDevice->CreateBuffer(
-					&vertexBufferDesc,
-					&vertexBufferData,
-					&m_vertexBuffer
-				)
-			);
-
-			// Load mesh indices. Each triple of indices represents 
-			// a triangle to be rendered on the screen. 
-			// For example, 0,2,1 means that the vertices with indexes 
-			// 0, 2 and 1 from the vertex buffer compose the  
-			// first triangle of this mesh. 
-			static const unsigned short cubeIndices[] =
-			{
-				 0,  2,  1, // +z
-				 0,  3,  2,
-				 4,  5,  6, // -z 
-				 4,  6,  7,
-				 8,  9, 10, // -y 
-				 8, 10, 11,
-				12, 14, 13, // -y 
-				12, 15, 14,
-				16, 17, 18, // -x
-				16, 18, 19,
-				20, 22, 21, // -x
-				20, 23, 22,
-			};
-
-			m_indexCount = ARRAYSIZE(cubeIndices);
-
-			D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
-			indexBufferData.pSysMem = cubeIndices;
-			indexBufferData.SysMemPitch = 0;
-			indexBufferData.SysMemSlicePitch = 0;
-			CD3D11_BUFFER_DESC indexBufferDesc(sizeof(cubeIndices), D3D11_BIND_INDEX_BUFFER);
-			ThrowIfFailed(
-				m_d3dDevice->CreateBuffer(
-					&indexBufferDesc,
-					&indexBufferData,
-					&m_indexBuffer
-				)
-			);
+ 			m_mesh = std::unique_ptr<MarcusEngine::Mesh::Mesh>(new MarcusEngine::Mesh::Box());
+			m_mesh->CreateBuffers(m_d3dDevice.Get());			
+			m_indexCount = m_mesh->IndexCount;
 		});
 
 		// Once the cube is loaded, the object is ready to be rendered. 
@@ -320,8 +241,7 @@ namespace DXControls
 			}			
 		});
 
-		m_renderLoopWorker = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
-		
+		m_renderLoopWorker = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);		
 	}
 
 	void D3DRenderPanel::StopRenderLoop() {
@@ -334,7 +254,7 @@ namespace DXControls
 		{
 			return;
 		}
-
+		
 		// Eye is at (0,0.7,1.5), looking at point (0,-0.1,0) with the up-vector along the y-axis. 
 		static const XMVECTORF32 eye = { 0.0f, 0.7f, 1.5f, 0.0f };
 		static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };
@@ -370,16 +290,18 @@ namespace DXControls
 		// Each vertex is one instance of the VertexPositionColor struct. 
 		UINT stride = sizeof(VertexFull);
 		UINT offset = 0;
+
+		auto vertexBuffer = m_mesh->GetVertexBuffer();
 		m_d3dContext->IASetVertexBuffers(
 			0,
 			1,
-			m_vertexBuffer.GetAddressOf(),
+			&vertexBuffer,
 			&stride,
 			&offset
 		);
 
 		m_d3dContext->IASetIndexBuffer(
-			m_indexBuffer.Get(),
+			m_mesh->GetIndexBuffer(),
 			DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short). 
 			0
 		);
