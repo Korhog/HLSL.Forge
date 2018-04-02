@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pch.h"
+
 #include "Utils\ShaderStructures.h"
 #include "Utils\StepTimer.h"
 #include "XAML\DXPanelBase.h"
@@ -36,9 +37,12 @@ namespace DXControls
 		Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vertexShader;
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixelShader;
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
-		Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;
-		Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;
+		
+		//Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;
+		//Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;
 		Microsoft::WRL::ComPtr<ID3D11Buffer> m_constantBuffer;
+
+		std::unique_ptr<MarcusEngine::Mesh::Mesh> m_mesh;
 
 		DX::ModelViewProjectionConstantBuffer m_constantBufferData;
 		float m_degreesPerSecond = 10;

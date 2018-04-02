@@ -3,6 +3,8 @@
 #include "pch.h"
 #include <concrt.h> 
 
+using namespace DirectX;
+
 namespace DXControls
 {
 	// Базовый класс для отрисовки DirectX в XAML 
