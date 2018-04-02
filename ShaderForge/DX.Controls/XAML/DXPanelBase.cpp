@@ -100,7 +100,7 @@ namespace DXControls
 				&m_d2dContext
 			)
 		);
-
+		
 		m_d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);		
 	}
 

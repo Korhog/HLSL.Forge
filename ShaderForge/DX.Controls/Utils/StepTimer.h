@@ -3,7 +3,7 @@
 #include <wrl.h> 
 
 namespace DX
-{
+{	
 	// Helper for animation and simulation timing. 
 	class StepTimer
 	{
