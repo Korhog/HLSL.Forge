@@ -8,6 +8,9 @@
 #include <string>
 #include <vector>
 
+#include <Mesh.h>
+#include <InputBase.h>
+
 using namespace std;
 
 namespace DXControls
@@ -38,11 +41,10 @@ namespace DXControls
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixelShader;
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 		
-		//Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;
-		//Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;
 		Microsoft::WRL::ComPtr<ID3D11Buffer> m_constantBuffer;
 
 		std::unique_ptr<MarcusEngine::Mesh::Mesh> m_mesh;
+		std::unique_ptr<MarcusEngine::Input::InputBase> m_input;
 
 		DX::ModelViewProjectionConstantBuffer m_constantBufferData;
 		float m_degreesPerSecond = 10;

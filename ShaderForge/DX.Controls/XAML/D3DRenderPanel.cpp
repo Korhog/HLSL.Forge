@@ -42,6 +42,9 @@ namespace DXControls
 	//  онструктор
 	D3DRenderPanel::D3DRenderPanel() {
 		critical_section::scoped_lock lock(m_criticalSection);
+
+		m_input = std::unique_ptr<MarcusEngine::Input::InputBase>(new MarcusEngine::Input::InputBase());
+
 		CreateDeviceIndependentResources();
 		CreateDeviceResources();
 		CreateSizeDependentResources();
@@ -222,7 +225,7 @@ namespace DXControls
 
 	void D3DRenderPanel::StartRenderLoop() {		
 		// ≈сли задача на отрисовку уже создана, то проходим мимо. 
-		if (m_renderLoopWorker != nullptr && m_renderLoopWorker->Status == AsyncStatus::Started)
+		if (m_renderLoopWorker != nullptr && m_renderLoopWorker->Status == Windows::Foundation::AsyncStatus::Started)
 		{
 			return;
 		}
@@ -230,7 +233,7 @@ namespace DXControls
 		// создаем задачу на отрисовку
 		auto workItemHandler = ref new WorkItemHandler([this](IAsyncAction ^ action)
 		{
-			while (action->Status == AsyncStatus::Started)
+			while (action->Status == Windows::Foundation::AsyncStatus::Started)
 			{
 				m_timer.Tick([&]()
 				{
@@ -255,6 +258,7 @@ namespace DXControls
 			return;
 		}
 		
+		m_input->Update();
 		// Eye is at (0,0.7,1.5), looking at point (0,-0.1,0) with the up-vector along the y-axis. 
 		static const XMVECTORF32 eye = { 0.0f, 0.7f, 1.5f, 0.0f };
 		static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };
@@ -268,6 +272,7 @@ namespace DXControls
 		// Prepare to pass the view matrix, and updated model matrix, to the shader 
 		XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
 		XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(animRadians)));
+		
 
 		// Set render targets to the screen. 
 		ID3D11RenderTargetView *const targets[1] = { m_renderTargetView.Get() };
