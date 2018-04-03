@@ -43,7 +43,7 @@ namespace DXControls
 	D3DRenderPanel::D3DRenderPanel() {
 		critical_section::scoped_lock lock(m_criticalSection);
 
-		m_input = std::unique_ptr<MarcusEngine::Input::InputBase>(new MarcusEngine::Input::InputBase());
+		m_input = MarcusEngine::Input::InputBase::Current();
 
 		CreateDeviceIndependentResources();
 		CreateDeviceResources();
@@ -266,13 +266,22 @@ namespace DXControls
 
 		// Convert degrees to radians, then convert seconds to rotation angle 
 		float radiansPerSecond = XMConvertToRadians(m_degreesPerSecond);
-		double totalRotation = m_timer.GetTotalSeconds() * radiansPerSecond;
-		float animRadians = (float)fmod(totalRotation, XM_2PI);
 
+		m_rotation_y += m_input->Gamepad.LeftThumbstickX / 30.0;
+		m_rotation_x += m_input->Gamepad.LeftThumbstickY / 30.0;
+
+		double totalRotation = m_timer.GetTotalSeconds() * radiansPerSecond;
+		
 		// Prepare to pass the view matrix, and updated model matrix, to the shader 
 		XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
-		XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(animRadians)));
-		
+
+		float animRadians = 0.0f;		
+
+		animRadians = (float)fmod(m_rotation_x, XM_2PI);
+		auto matrix = XMMatrixRotationX(animRadians);
+		animRadians = (float)fmod(m_rotation_y, XM_2PI);
+		matrix *= XMMatrixRotationY(animRadians);
+		XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(matrix));			
 
 		// Set render targets to the screen. 
 		ID3D11RenderTargetView *const targets[1] = { m_renderTargetView.Get() };

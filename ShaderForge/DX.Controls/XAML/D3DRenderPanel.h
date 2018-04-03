@@ -44,7 +44,7 @@ namespace DXControls
 		Microsoft::WRL::ComPtr<ID3D11Buffer> m_constantBuffer;
 
 		std::unique_ptr<MarcusEngine::Mesh::Mesh> m_mesh;
-		std::unique_ptr<MarcusEngine::Input::InputBase> m_input;
+		std::shared_ptr<MarcusEngine::Input::InputBase> m_input;
 
 		DX::ModelViewProjectionConstantBuffer m_constantBufferData;
 		float m_degreesPerSecond = 10;
@@ -54,6 +54,9 @@ namespace DXControls
 		Windows::Foundation::IAsyncAction^ m_renderLoopWorker;
 		DX::StepTimer m_timer;
 	private:
+		double m_rotation_y = 0;
+		double m_rotation_x = 0;
+
 		~D3DRenderPanel();
 	};
 }

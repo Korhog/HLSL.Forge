@@ -7,6 +7,6 @@
 #endif
 
 #include <windows.h>
-#include <Xinput.h>
-#include <wrl.h>
-#include <memory>   
+
+#include <d3d11_2.h>
+#include <DirectXMath.h>

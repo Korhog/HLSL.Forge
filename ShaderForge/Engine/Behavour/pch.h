@@ -7,6 +7,4 @@
 #endif
 
 #include <windows.h>
-#include <Xinput.h>
-#include <wrl.h>
-#include <memory>   
+#include <wrl/client.h> 
