@@ -1,5 +1,6 @@
 cbuffer ModelViewProjectionConstantBuffer : register(b0)
 {
+	matrix transform;
 	matrix model;
 	matrix view;
 	matrix projection;
@@ -33,9 +34,9 @@ VertexShaderOutput main(VertexShaderInput input)
 	output.world = mul(float4(input.pos, 1.0f), model);
 
 	float4 normal = float4(input.normal, 1.0f);
-	normal = mul(normal, model);
-	output.normal = normal.xyz;
-
+	normal = mul(normal, transform);
+	output.normal = normalize(normal.xyz);
+	
 	output.color = input.color;
 
 	return output;

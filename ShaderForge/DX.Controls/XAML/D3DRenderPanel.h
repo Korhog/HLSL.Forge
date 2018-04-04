@@ -10,6 +10,7 @@
 
 #include <Mesh.h>
 #include <InputBase.h>
+#include <GameObject.h>
 
 using namespace std;
 
@@ -43,8 +44,8 @@ namespace DXControls
 		
 		Microsoft::WRL::ComPtr<ID3D11Buffer> m_constantBuffer;
 
-		std::unique_ptr<MarcusEngine::Mesh::Mesh> m_mesh;
 		std::shared_ptr<MarcusEngine::Input::InputBase> m_input;
+		std::unique_ptr<MarcusEngine::GameObject> m_render;
 
 		DX::ModelViewProjectionConstantBuffer m_constantBufferData;
 		float m_degreesPerSecond = 10;

@@ -10,18 +10,15 @@ namespace MarcusEngine {
 			IGameObject();
 			__declspec(property(get = GetPosition, put = SetPosition)) XMFLOAT3 Position;
 			__declspec(property(get = GetRotation, put = SetRotation)) XMFLOAT3 Rotation;
-			__declspec(property(get = GetScale, put = SetScale)) XMFLOAT3 Scale;
+			__declspec(property(get = GetScale, put = SetSize)) XMFLOAT3 Size;
 
+			XMMATRIX TransformMatrix();
 			XMMATRIX WorldMatrix();
-		protected:
-			// Операции
-			virtual void Translate();
-			virtual void Rotate();
-			virtual void SetScale();
 
-			XMFLOAT3 m_position;
-			XMFLOAT3 m_rotation;
-			XMFLOAT3 m_scale;
+			virtual void Translate(XMFLOAT3 position);
+			virtual void Rotate(XMFLOAT3 rotation);
+			virtual void Scale(XMFLOAT3 scale);
+
 #pragma region Свойства
 			// Позиция
 			XMFLOAT3 GetPosition() { return m_position; }
@@ -30,9 +27,13 @@ namespace MarcusEngine {
 			XMFLOAT3 GetRotation() { return m_rotation; }
 			void SetRotation(XMFLOAT3 rotation) { m_rotation = rotation; }
 			// Масштаб
-			XMFLOAT3 GetScale() { return m_scale; }
-			void SetScale(XMFLOAT3 scale) { m_scale = scale; }
-#pragma endregion			
+			XMFLOAT3 GetSize() { return m_size; }
+			void SetSize(XMFLOAT3 scale) { m_size = scale; }
+#pragma endregion	
+		protected:
+			XMFLOAT3 m_position;
+			XMFLOAT3 m_rotation;
+			XMFLOAT3 m_size;		
 		};
 	}
 }

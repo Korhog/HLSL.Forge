@@ -11,6 +11,7 @@
 #include <windows.ui.xaml.media.dxinterop.h> 
 
 #include <Mesh.h>
+#include <MoveBehavour.h>
 
 #include <d3dcompiler.h>
 //#pragma comment(lib, "d3dcompiler.lib")
@@ -185,6 +186,15 @@ namespace DXControls
 				&m_constantBufferData.projection,
 				XMMatrixTranspose(perspectiveMatrix * orientationMatrix)
 			);
+
+			D3D11_RASTERIZER_DESC desc;
+			ID3D11RasterizerState* war;
+			ZeroMemory(&desc, sizeof(D3D11_RASTERIZER_DESC));
+			desc.FillMode = D3D11_FILL_WIREFRAME;
+			desc.CullMode = D3D11_CULL_NONE;
+			m_d3dDevice->CreateRasterizerState(&desc, &war);	
+
+			//m_d3dContext->RSSetState(war);
 		});
 
 		// Asynchronously load vertex shader and create constant buffer. 
@@ -211,9 +221,12 @@ namespace DXControls
 
 		// Once both shaders are loaded, create the mesh. 
 		auto createCubeTask = (createPSTask && createVSTask).then([this]() {
- 			m_mesh = std::unique_ptr<MarcusEngine::Mesh::Mesh>(new MarcusEngine::Mesh::Box());
-			m_mesh->CreateBuffers(m_d3dDevice.Get());			
-			m_indexCount = m_mesh->IndexCount;
+			m_render = std::unique_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
+			auto mind = shared_ptr<MarcusEngine::Mind::MoveBehavour>(new MarcusEngine::Mind::MoveBehavour());
+			
+			m_render->AddBehavour(mind);
+			m_render->Load(m_d3dDevice.Get());		
+			m_indexCount = m_render->Render()->IndexCount;
 		});
 
 		// Once the cube is loaded, the object is ready to be rendered. 
@@ -259,6 +272,7 @@ namespace DXControls
 		}
 		
 		m_input->Update();
+		m_render->Update();
 		// Eye is at (0,0.7,1.5), looking at point (0,-0.1,0) with the up-vector along the y-axis. 
 		static const XMVECTORF32 eye = { 0.0f, 0.7f, 1.5f, 0.0f };
 		static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };
@@ -266,9 +280,6 @@ namespace DXControls
 
 		// Convert degrees to radians, then convert seconds to rotation angle 
 		float radiansPerSecond = XMConvertToRadians(m_degreesPerSecond);
-
-		m_rotation_y += m_input->Gamepad.LeftThumbstickX / 30.0;
-		m_rotation_x += m_input->Gamepad.LeftThumbstickY / 30.0;
 
 		double totalRotation = m_timer.GetTotalSeconds() * radiansPerSecond;
 		
@@ -281,7 +292,9 @@ namespace DXControls
 		auto matrix = XMMatrixRotationX(animRadians);
 		animRadians = (float)fmod(m_rotation_y, XM_2PI);
 		matrix *= XMMatrixRotationY(animRadians);
-		XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(matrix));			
+
+		XMStoreFloat4x4(&m_constantBufferData.transform, XMMatrixTranspose(m_render->TransformMatrix()));
+		XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(m_render->WorldMatrix()));			
 
 		// Set render targets to the screen. 
 		ID3D11RenderTargetView *const targets[1] = { m_renderTargetView.Get() };
@@ -305,7 +318,7 @@ namespace DXControls
 		UINT stride = sizeof(VertexFull);
 		UINT offset = 0;
 
-		auto vertexBuffer = m_mesh->GetVertexBuffer();
+		auto vertexBuffer = m_render->Render()->GetVertexBuffer();
 		m_d3dContext->IASetVertexBuffers(
 			0,
 			1,
@@ -315,7 +328,7 @@ namespace DXControls
 		);
 
 		m_d3dContext->IASetIndexBuffer(
-			m_mesh->GetIndexBuffer(),
+			m_render->Render()->GetIndexBuffer(),
 			DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short). 
 			0
 		);

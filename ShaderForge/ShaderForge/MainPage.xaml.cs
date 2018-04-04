@@ -1,4 +1,4 @@
-﻿using Windows.UI;
+﻿using System.Reflection;
 using Windows.UI.Xaml.Controls;
 
 namespace ShaderForge
@@ -39,6 +39,11 @@ namespace ShaderForge
                     rootController.CreateItem(it.Type);
                 }
             };
+
+            var a = Assembly.GetExecutingAssembly();
+            var c = a.GetTypes();
+
+           
         }
 
         Material material;

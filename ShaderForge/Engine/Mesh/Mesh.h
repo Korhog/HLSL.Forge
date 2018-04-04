@@ -33,5 +33,9 @@ namespace MarcusEngine {
 		public:
 			virtual void CreateBuffers(ID3D11Device1 *device) override;
 		};
+
+		class Sphere : public Mesh3D{
+			virtual void CreateBuffers(ID3D11Device1 *device) override;
+		};
 	}
 }

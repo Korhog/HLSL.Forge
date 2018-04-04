@@ -10,29 +10,36 @@
     mc:Ignorable="d">
 
     <Grid Background="#1d1d1d">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>            
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>            
+        </Grid.RowDefinitions>
 
-        <ScrollViewer x:Name="scroll" UseLayoutRounding="True">
+
+        <ScrollViewer x:Name="scroll" UseLayoutRounding="True" ZoomMode="Enabled" Grid.Row="1">
             <Canvas x:Name="canvas" Width="1000" Height="1000" UseLayoutRounding="True" Background="Transparent"/>
         </ScrollViewer>
 
         <editor:TreeSelector x:Name="tree" 
+                             Grid.Row="1"
                              Foreground="White"
                              Width="250" 
                              MaxHeight="300" 
                              VerticalAlignment="Top" 
-                             Margin="30"
+                             Margin="10"
                              HorizontalAlignment="Left"/>
 
-        <Border Grid.Column="1" Background="#0d0d0d">
+        <Button Content="Compile" 
+                Click="OnCompile" 
+                Grid.Row="1" 
+                Margin="10"
+                Foreground="White"
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Center"/>
+
+        <Border Grid.Row="0" Background="#0d0d0d">
             <StackPanel>
-                <dx:D3DRenderPanel x:Name="dx" Height="350" Width="350"/>
-                <StackPanel Orientation="Horizontal" Background="Gray">
-                    <Button Content="Compile" Click="OnCompile" />
-                </StackPanel>
+                <dx:D3DRenderPanel x:Name="dx" Height="350" Width="350" />
             </StackPanel>
         </Border>
     </Grid> 

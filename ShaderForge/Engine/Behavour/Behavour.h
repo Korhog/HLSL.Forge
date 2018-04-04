@@ -2,26 +2,23 @@
 #include "pch.h"
 #include <functional>
 #include <InputBase.h>
+#include <Core.h>
 
 namespace MarcusEngine {
 	/// Сознание
 	namespace Mind {
 		class Behavour {
 		protected:
+			std::shared_ptr<Core::IGameObject> m_gameObject;
 			std::function<void(void)> func;
 		public:
-			void Execute() {
+			void SetGameObject(Core::IGameObject * gameObject);
+
+			virtual void Execute() {
 				if(func) func();
 			};
 
-			HRESULT Compile() {	
-				auto input = Input::InputBase::Current();
-				auto f = [=]() { return input->Gamepad.RightTrigger; };	
-
-				func = [=]() {					
-					double d = f();
-				};
-
+			virtual HRESULT Compile() {	
 				return S_OK;
 			}
 		};
