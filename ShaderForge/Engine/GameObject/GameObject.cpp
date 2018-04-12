@@ -22,6 +22,6 @@ void GameObject::Update() {
 }
 
 void GameObject::Load(ID3D11Device1 *device) {
-	m_mesh = std::unique_ptr<MarcusEngine::Mesh::Mesh>(new MarcusEngine::Mesh::Box());
+	m_mesh = std::unique_ptr<MarcusEngine::Mesh::Mesh>(new MarcusEngine::Mesh::Sprite());
 	m_mesh->CreateBuffers(device);
 }

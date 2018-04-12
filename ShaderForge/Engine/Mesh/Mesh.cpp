@@ -92,8 +92,6 @@ void Box::CreateBuffers(ID3D11Device1 *device) {
 	);
 }
 
-
-
 void Sphere::CreateBuffers(ID3D11Device1 *device) {
 
 	const double M_PI = 3.14;
@@ -198,6 +196,51 @@ void Sphere::CreateBuffers(ID3D11Device1 *device) {
 	indexBufferData.SysMemPitch = 0;
 	indexBufferData.SysMemSlicePitch = 0;
 	CD3D11_BUFFER_DESC indexBufferDesc(sizeof(UINT) * indices.size(), D3D11_BIND_INDEX_BUFFER);
+
+	hr = device->CreateBuffer(
+		&indexBufferDesc,
+		&indexBufferData,
+		&m_indexBuffer
+	);
+}
+
+void Sprite::CreateBuffers(ID3D11Device1 *device) {
+	float width = 0.5f;
+	float height = 0.5f;
+	
+	static const Vertex3D cubeVertices[] =
+	{
+		// Спрайт
+		{ XMFLOAT3( width,  height, 0.0f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 0.0f) },
+		{ XMFLOAT3(-width,  height, 0.0f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 0.0f) },
+		{ XMFLOAT3(-width, -height, 0.0f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
+		{ XMFLOAT3( width, -height, 0.0f), XMFLOAT3(0.0f,  0.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) }
+	};
+
+	D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
+
+	vertexBufferData.pSysMem = cubeVertices;
+	vertexBufferData.SysMemPitch = 0;
+	vertexBufferData.SysMemSlicePitch = 0;
+
+	CD3D11_BUFFER_DESC vertexBufferDesc(sizeof(cubeVertices), D3D11_BIND_VERTEX_BUFFER);
+
+	HRESULT hr = device->CreateBuffer(
+		&vertexBufferDesc,
+		&vertexBufferData,
+		&m_vertexBuffer
+	);
+#pragma endregion
+
+	static const unsigned short cubeIndices[] =	{0, 2, 1, 0, 3, 2};
+
+	m_indexCount = ARRAYSIZE(cubeIndices);
+
+	D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
+	indexBufferData.pSysMem = cubeIndices;
+	indexBufferData.SysMemPitch = 0;
+	indexBufferData.SysMemSlicePitch = 0;
+	CD3D11_BUFFER_DESC indexBufferDesc(sizeof(cubeIndices), D3D11_BIND_INDEX_BUFFER);
 
 	hr = device->CreateBuffer(
 		&indexBufferDesc,

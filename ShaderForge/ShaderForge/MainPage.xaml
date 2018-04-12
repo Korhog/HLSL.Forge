@@ -37,10 +37,8 @@
                 VerticalAlignment="Top" 
                 HorizontalAlignment="Center"/>
 
-        <Border Grid.Row="0" Background="#0d0d0d">
-            <StackPanel>
-                <dx:D3DRenderPanel x:Name="dx" Height="350" Width="350" />
-            </StackPanel>
+        <Border Grid.Row="0" Background="#0d0d0d" VerticalAlignment="Stretch">
+                <dx:D3DRenderPanel x:Name="dx" />
         </Border>
     </Grid> 
 </Page>

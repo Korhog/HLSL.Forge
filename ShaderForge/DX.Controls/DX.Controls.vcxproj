@@ -124,12 +124,12 @@
       <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>28204</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\InputBase;$(SolutionDir)Engine\GameObject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Phis2D;$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Game;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\InputBase;$(SolutionDir)Engine\GameObject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>Mesh.lib;Core.lib;InputBase.lib;GameObject.lib;Behavour.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Mesh.lib;Core.lib;InputBase.lib;GameObject.lib;Behavour.lib;Phis2D.lib;Game.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\$(Platform)\Libs\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -142,12 +142,12 @@
       <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>28204</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Mesh;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Phis2D;$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Game;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Mesh;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>Mesh.lib;Core.lib;InputBase.lib;GameObject.lib;Behavour.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Mesh.lib;Core.lib;InputBase.lib;GameObject.lib;Behavour.lib;Phis2D.lib;Game.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\$(Platform)\Libs\</AdditionalLibraryDirectories>
     </Link>
     <FxCompile>
@@ -163,13 +163,13 @@
       <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>28204</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\InputBase;$(SolutionDir)Engine\GameObject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Phis2D;$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Game;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\InputBase;$(SolutionDir)Engine\GameObject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\$(Platform)\Libs\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Mesh.lib;Core.lib;InputBase.lib;GameObject.lib;Behavour.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Mesh.lib;Core.lib;InputBase.lib;GameObject.lib;Behavour.lib;Phis2D.lib;Game.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -181,13 +181,13 @@
       <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>28204</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Mesh;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Phis2D;$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Game;$(SolutionDir)Engine\Mesh;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\$(Platform)\Libs\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Mesh.lib;Core.lib;InputBase.lib;GameObject.lib;Behavour.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Mesh.lib;Core.lib;InputBase.lib;GameObject.lib;Behavour.lib;Phis2D.lib;Game.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -199,13 +199,13 @@
       <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>28204</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\InputBase;$(SolutionDir)Engine\GameObject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Phis2D;$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Game;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\Mesh;$(SolutionDir)Engine\InputBase;$(SolutionDir)Engine\GameObject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\$(Platform)\Libs\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Mesh.lib;Core.lib;InputBase.lib;GameObject.lib;Behavour.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Mesh.lib;Core.lib;InputBase.lib;GameObject.lib;Behavour.lib;Phis2D.lib;Game.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -217,13 +217,13 @@
       <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>28204</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Mesh;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Phis2D;$(SolutionDir)Engine\GameObject;$(SolutionDir)Engine\Behavour;$(SolutionDir)Engine\Core;$(SolutionDir)Engine\Game;$(SolutionDir)Engine\Mesh;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\$(Platform)\Libs\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Mesh.lib;Core.lib;InputBase.lib;GameObject.lib;Behavour.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Mesh.lib;Core.lib;InputBase.lib;GameObject.lib;Behavour.lib;Phis2D.lib;Game.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

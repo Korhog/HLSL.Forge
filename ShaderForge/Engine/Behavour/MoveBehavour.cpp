@@ -15,7 +15,7 @@ void MoveBehavour::Execute() {
 
 	double r = m_input->Gamepad.RightThumbstickX;
 	if (abs(r) > 0.15) {
-		m_gameObject->Rotate(DirectX::XMFLOAT3(0.0f, -(float)r / 50.0f, 0.0f));
+		m_gameObject->Rotate(DirectX::XMFLOAT3(0.0f, 0.0f, -(float)r / 50.0f));
 	}
 
 	double f = m_input->Gamepad.LeftThumbstickY;
@@ -29,5 +29,5 @@ void MoveBehavour::Execute() {
 		XMStoreFloat3(&trans, dir);
 
 		m_gameObject->Translate(trans);
-	}
+	}	
 }

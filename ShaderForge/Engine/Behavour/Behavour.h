@@ -3,6 +3,7 @@
 #include <functional>
 #include <InputBase.h>
 #include <Core.h>
+#include <Time.h>
 
 namespace MarcusEngine {
 	/// Сознание

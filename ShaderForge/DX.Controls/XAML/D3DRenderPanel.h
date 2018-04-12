@@ -8,9 +8,13 @@
 #include <string>
 #include <vector>
 
+#include <Camera.h>
 #include <Mesh.h>
 #include <InputBase.h>
 #include <GameObject.h>
+#include <Phis2D.h>
+#include <RigidBody.h>
+#include <Game.h>
 
 using namespace std;
 
@@ -44,8 +48,10 @@ namespace DXControls
 		
 		Microsoft::WRL::ComPtr<ID3D11Buffer> m_constantBuffer;
 
+		std::unique_ptr<MarcusEngine::Camera::ICamera> m_main_camera;
 		std::shared_ptr<MarcusEngine::Input::InputBase> m_input;
-		std::unique_ptr<MarcusEngine::GameObject> m_render;
+		std::shared_ptr<MarcusEngine::Phis2D::RigidBody2D> m_body;
+		std::unique_ptr<MarcusEngine::Game2D> m_game;
 
 		DX::ModelViewProjectionConstantBuffer m_constantBufferData;
 		float m_degreesPerSecond = 10;

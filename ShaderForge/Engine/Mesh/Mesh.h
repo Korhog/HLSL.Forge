@@ -19,11 +19,6 @@ namespace MarcusEngine {
 			UINT32 GetIndexCount() { return m_indexCount; }	
 		};
 
-		class Mesh2D : public Mesh {
-		public:
-			void CreateBuffers(ID3D11Device1 *device) {};
-		};
-
 		class Mesh3D : public Mesh {	
 		public:
 			virtual void CreateBuffers(ID3D11Device1 *device) {};
@@ -35,6 +30,15 @@ namespace MarcusEngine {
 		};
 
 		class Sphere : public Mesh3D{
+			virtual void CreateBuffers(ID3D11Device1 *device) override;
+		};
+
+		class Mesh2D : public Mesh {
+		public:
+			virtual void CreateBuffers(ID3D11Device1 *device) {};
+		};
+
+		class Sprite : public Mesh2D {
 			virtual void CreateBuffers(ID3D11Device1 *device) override;
 		};
 	}

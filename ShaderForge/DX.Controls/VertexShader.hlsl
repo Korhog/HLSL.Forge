@@ -10,7 +10,8 @@ struct VertexShaderInput
 {
 	float3 pos : POSITION;
 	float3 normal: NORMAL;
-	float3 color : COLOR0;
+	float3 color : COLOR;
+	float2 uv	 : TEXCOORD;
 };
 
 struct VertexShaderOutput
@@ -18,7 +19,8 @@ struct VertexShaderOutput
 	float4 pos : SV_POSITION;
 	float4 world : POSITION;
 	float3 normal: NORMAL;
-	float3 color : COLOR0;		
+	float3 color : COLOR;	
+	float2 uv	 : TEXCOORD;
 };
 
 VertexShaderOutput main(VertexShaderInput input)
@@ -38,6 +40,7 @@ VertexShaderOutput main(VertexShaderInput input)
 	output.normal = normalize(normal.xyz);
 	
 	output.color = input.color;
+	output.uv = input.uv;
 
 	return output;
 }

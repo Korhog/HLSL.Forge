@@ -7,9 +7,8 @@
 #endif
 
 #include <windows.h>
-
-#include <d3d11_2.h>
-#include <DirectXMath.h>
-#include <map>
+#include <Core.h>
 #include <vector>
 #include <memory>
+
+#include "Math2D.h"

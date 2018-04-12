@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{5fc79e1e-6404-4cba-a216-d4c6677f90a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{a924a1a6-e936-4989-81f8-b253f8dc7b12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math2D">
+      <UniqueIdentifier>{959b2aa4-749d-49bc-806b-5dd45bfcebf3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PhysicalEngine.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Math2D.cpp">
+      <Filter>Math2D</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PhysicalEngine.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="World.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="AABB.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Math2D.h">
+      <Filter>Math2D</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

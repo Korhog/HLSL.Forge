@@ -12,19 +12,4 @@ namespace DX
 		DirectX::XMFLOAT4X4 view;
 		DirectX::XMFLOAT4X4 projection;
 	};
-
-	// Used to send per-vertex data to the vertex shader. 
-	struct VertexPositionColor
-	{
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 color;
-	};
-
-	struct VertexFull
-	{
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 normal;
-		DirectX::XMFLOAT3 color;
-	};
-
 }

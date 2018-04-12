@@ -11,7 +11,9 @@
 #include <windows.ui.xaml.media.dxinterop.h> 
 
 #include <Mesh.h>
+#include <MEVertext.h>
 #include <MoveBehavour.h>
+#include <GameObject.h>
 
 #include <d3dcompiler.h>
 //#pragma comment(lib, "d3dcompiler.lib")
@@ -37,6 +39,8 @@ using namespace DXControls;
 using namespace DX;
 
 using namespace MarcusEngine::Mesh;
+using namespace MarcusEngine::Camera;
+
 
 namespace DXControls 
 {
@@ -44,7 +48,10 @@ namespace DXControls
 	D3DRenderPanel::D3DRenderPanel() {
 		critical_section::scoped_lock lock(m_criticalSection);
 
-		m_input = MarcusEngine::Input::InputBase::Current();
+		m_input = MarcusEngine::Input::InputBase::Current();		
+		m_main_camera = std::unique_ptr<ICamera>(new CameraOrthographic());
+		m_game = std::unique_ptr<MarcusEngine::Game2D>(new MarcusEngine::Game2D());
+
 
 		CreateDeviceIndependentResources();
 		CreateDeviceResources();
@@ -79,6 +86,14 @@ namespace DXControls
 			0.0f,
 			m_renderTargetWidth,
 			m_renderTargetHeight
+		);
+
+		m_main_camera->UpdateViewport(m_renderTargetWidth, m_renderTargetHeight);
+		XMMATRIX pm = m_main_camera->Projection;
+
+		XMStoreFloat4x4(
+			&m_constantBufferData.projection,
+			XMMatrixTranspose(pm)
 		);
 
 		m_d3dContext->RSSetViewports(1, &viewport);
@@ -145,6 +160,7 @@ namespace DXControls
 				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },
 				{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 				{ "COLOR",    0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 36, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 			};
 
 			ThrowIfFailed(
@@ -155,36 +171,14 @@ namespace DXControls
 					fileData.size(),
 					&m_inputLayout
 				)
-			);
-
-			float aspectRatio = m_renderTargetWidth / m_renderTargetHeight;
-
-			float fovAngleY = 70.0f * XM_PI / 180.0f;
-			if (aspectRatio < 1.0f)
-			{
-				fovAngleY /= aspectRatio;
-			}
-
-			XMMATRIX perspectiveMatrix = XMMatrixPerspectiveFovRH(
-				fovAngleY,
-				aspectRatio,
-				0.01f,
-				100.0f
-			);
-
-			XMFLOAT4X4 orientation =
-				XMFLOAT4X4(
-					1.0f, 0.0f, 0.0f, 0.0f,
-					0.0f, 1.0f, 0.0f, 0.0f,
-					0.0f, 0.0f, 1.0f, 0.0f,
-					0.0f, 0.0f, 0.0f, 1.0f
-				);
-
-			XMMATRIX orientationMatrix = XMLoadFloat4x4(&orientation);
-
+			);	
+	
+			m_main_camera->UpdateViewport(m_renderTargetWidth, m_renderTargetHeight);
+			XMMATRIX pm = m_main_camera->Projection;
+				
 			XMStoreFloat4x4(
 				&m_constantBufferData.projection,
-				XMMatrixTranspose(perspectiveMatrix * orientationMatrix)
+				XMMatrixTranspose(pm)
 			);
 
 			D3D11_RASTERIZER_DESC desc;
@@ -221,12 +215,32 @@ namespace DXControls
 
 		// Once both shaders are loaded, create the mesh. 
 		auto createCubeTask = (createPSTask && createVSTask).then([this]() {
-			m_render = std::unique_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
+
+			MarcusEngine::Math2D::Vector2 vector;
+			auto gameObject1 = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
+			gameObject1->Translate(XMFLOAT3(-2.0f, -1.5f, 0.0f));
 			auto mind = shared_ptr<MarcusEngine::Mind::MoveBehavour>(new MarcusEngine::Mind::MoveBehavour());
+
+			auto body = m_game->World->Attach(gameObject1);	
+			vector.x = 3.0f / 60.0f;
+			vector.y = 3.0f / 60.0f;
+			body->Velocity = vector;
 			
-			m_render->AddBehavour(mind);
-			m_render->Load(m_d3dDevice.Get());		
-			m_indexCount = m_render->Render()->IndexCount;
+			gameObject1->AddBehavour(mind);
+			gameObject1->Load(m_d3dDevice.Get());
+
+			m_game->AddGameObject(gameObject1);
+			
+			auto gameObject2  = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
+			gameObject2->Translate(XMFLOAT3(2.0f, 1.5f, 0.0f));
+
+			body = m_game->World->Attach(gameObject2);
+			vector.x = -3.0f / 60.0f;
+			vector.y = -3.0f / 60.0f;
+			body->Velocity = vector;
+
+			gameObject2->Load(m_d3dDevice.Get());
+			m_game->AddGameObject(gameObject2);			
 		});
 
 		// Once the cube is loaded, the object is ready to be rendered. 
@@ -272,11 +286,12 @@ namespace DXControls
 		}
 		
 		m_input->Update();
-		m_render->Update();
+		m_game->Update();
+
 		// Eye is at (0,0.7,1.5), looking at point (0,-0.1,0) with the up-vector along the y-axis. 
-		static const XMVECTORF32 eye = { 0.0f, 0.7f, 1.5f, 0.0f };
-		static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };
-		static const XMVECTORF32 up = { 0.0f, 1.0f, 0.0f, 0.0f };
+		static const XMVECTORF32 eye = { 0.0f, 0.0f, 1.5f, 0.0f };
+		static const XMVECTORF32 at =  { 0.0f, 0.0f, 0.0f, 0.0f };
+		static const XMVECTORF32 up =  { 0.0f, 1.0f, 0.0f, 0.0f };
 
 		// Convert degrees to radians, then convert seconds to rotation angle 
 		float radiansPerSecond = XMConvertToRadians(m_degreesPerSecond);
@@ -292,49 +307,15 @@ namespace DXControls
 		auto matrix = XMMatrixRotationX(animRadians);
 		animRadians = (float)fmod(m_rotation_y, XM_2PI);
 		matrix *= XMMatrixRotationY(animRadians);
-
-		XMStoreFloat4x4(&m_constantBufferData.transform, XMMatrixTranspose(m_render->TransformMatrix()));
-		XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(m_render->WorldMatrix()));			
-
-		// Set render targets to the screen. 
+				// Set render targets to the screen. 
 		ID3D11RenderTargetView *const targets[1] = { m_renderTargetView.Get() };
 		m_d3dContext->OMSetRenderTargets(1, targets, m_depthStencilView.Get());
 
 		// Clear the back buffer and depth stencil view. 
-		m_d3dContext->ClearRenderTargetView(m_renderTargetView.Get(), DirectX::Colors::CornflowerBlue);
+		m_d3dContext->ClearRenderTargetView(m_renderTargetView.Get(), DirectX::Colors::Black);
 		m_d3dContext->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-		// Prepare the constant buffer to send it to the Graphics device. 
-		m_d3dContext->UpdateSubresource(
-			m_constantBuffer.Get(),
-			0,
-			NULL,
-			&m_constantBufferData,
-			0,
-			0
-		);
-
-		// Each vertex is one instance of the VertexPositionColor struct. 
-		UINT stride = sizeof(VertexFull);
-		UINT offset = 0;
-
-		auto vertexBuffer = m_render->Render()->GetVertexBuffer();
-		m_d3dContext->IASetVertexBuffers(
-			0,
-			1,
-			&vertexBuffer,
-			&stride,
-			&offset
-		);
-
-		m_d3dContext->IASetIndexBuffer(
-			m_render->Render()->GetIndexBuffer(),
-			DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short). 
-			0
-		);
-
-		m_d3dContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
+	
 		m_d3dContext->IASetInputLayout(m_inputLayout.Get());
 
 		// Attach our vertex shader. 
@@ -358,13 +339,51 @@ namespace DXControls
 			0
 		);
 
-		// Draw the objects. 
-		m_d3dContext->DrawIndexed(
-			m_indexCount,
-			0,
-			0
-		);
+		for each (std::shared_ptr<MarcusEngine::GameObject> gameObject in m_game->m_game_objects)
+		{
+			auto render = gameObject->Render();
 
+			// Each vertex is one instance of the VertexPositionColor struct. 
+			UINT stride = sizeof(Vertex3D);
+			UINT offset = 0;
+
+			auto vertexBuffer = render->GetVertexBuffer();
+			m_d3dContext->IASetVertexBuffers(
+				0,
+				1,
+				&vertexBuffer,
+				&stride,
+				&offset
+			);
+
+			m_d3dContext->IASetIndexBuffer(
+				render->GetIndexBuffer(),
+				DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short). 
+				0
+			);
+
+			m_d3dContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+			// Draw the objects. 
+			m_d3dContext->DrawIndexed(
+				render->GetIndexCount(),
+				0,
+				0
+			);
+
+
+			XMStoreFloat4x4(&m_constantBufferData.transform, XMMatrixTranspose(gameObject->TransformMatrix()));
+			XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(gameObject->WorldMatrix()));
+
+			// Prepare the constant buffer to send it to the Graphics device. 
+			m_d3dContext->UpdateSubresource(
+				m_constantBuffer.Get(),
+				0,
+				NULL,
+				&m_constantBufferData,
+				0,
+				0
+			);
+		}
 		Present();		
 	}
 

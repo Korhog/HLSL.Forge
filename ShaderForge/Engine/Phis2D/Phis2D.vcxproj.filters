@@ -5,26 +5,22 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Camera">
-      <UniqueIdentifier>{dc865cb3-b15c-406b-8120-ff91da447bba}</UniqueIdentifier>
+    <Filter Include="Math">
+      <UniqueIdentifier>{becc624e-9ba8-4502-aaa6-c697609a596c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core.cpp" />
+    <ClCompile Include="Phis2D.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Camera.cpp">
-      <Filter>Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="RigidBody.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core.h" />
+    <ClInclude Include="Phis2D.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Camera.h">
-      <Filter>Camera</Filter>
+    <ClInclude Include="Math2D.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="RigidBody.h" />
   </ItemGroup>
 </Project>
