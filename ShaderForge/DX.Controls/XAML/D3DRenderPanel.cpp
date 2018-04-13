@@ -14,6 +14,7 @@
 #include <MEVertext.h>
 #include <MoveBehavour.h>
 #include <GameObject.h>
+#include <random>  
 
 #include <d3dcompiler.h>
 //#pragma comment(lib, "d3dcompiler.lib")
@@ -215,32 +216,27 @@ namespace DXControls
 
 		// Once both shaders are loaded, create the mesh. 
 		auto createCubeTask = (createPSTask && createVSTask).then([this]() {
-
+			int n = 50;
 			MarcusEngine::Math2D::Vector2 vector;
-			auto gameObject1 = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
-			gameObject1->Translate(XMFLOAT3(-2.0f, -1.5f, 0.0f));
-			auto mind = shared_ptr<MarcusEngine::Mind::MoveBehavour>(new MarcusEngine::Mind::MoveBehavour());
+			float speed = 0.5f;
+			for (int i = 0; i < n; i++) {		
 
-			auto body = m_game->World->Attach(gameObject1);	
-			vector.x = 3.0f / 60.0f;
-			vector.y = 3.0f / 60.0f;
-			body->Velocity = vector;
-			
-			gameObject1->AddBehavour(mind);
-			gameObject1->Load(m_d3dDevice.Get());
+				auto gameObject = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());				
 
-			m_game->AddGameObject(gameObject1);
-			
-			auto gameObject2  = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
-			gameObject2->Translate(XMFLOAT3(2.0f, 1.5f, 0.0f));
+				auto body = m_game->World->Attach(gameObject);
+				vector.x = ((float)rand() / (float)RAND_MAX);
+				vector.y = ((float)rand() / (float)RAND_MAX);
 
-			body = m_game->World->Attach(gameObject2);
-			vector.x = -3.0f / 60.0f;
-			vector.y = -3.0f / 60.0f;
-			body->Velocity = vector;
+				gameObject->Translate(XMFLOAT3(vector.x, vector.y, 0.0f));
+				gameObject->Scale(XMFLOAT3(0.5f, 0.5f, 1.0f));
+				vector = vector.Normalize() * speed / 60.0f;
 
-			gameObject2->Load(m_d3dDevice.Get());
-			m_game->AddGameObject(gameObject2);			
+				body->Velocity = vector;
+				
+				gameObject->Load(m_d3dDevice.Get());
+				m_game->AddGameObject(gameObject);
+
+			}	
 		});
 
 		// Once the cube is loaded, the object is ready to be rendered. 

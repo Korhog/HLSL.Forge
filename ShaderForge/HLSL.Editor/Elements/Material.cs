@@ -35,7 +35,7 @@ namespace HLSL.Elements
 	        float y = input.uv.y - 0.5f;
 
 	        float l = sqrt(x * x + y * y);
-	        if (l <= 0.5f)
+	        if (l <= 0.5f && l >= 0.48f)
 		        return float4(1.0f, 0.0f, 1.0f, 1.0f);
 
 	        return float4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -61,7 +61,7 @@ namespace HLSL.Elements
 	        float y = input.uv.y - 0.5f;
 
 	        float l = sqrt(x * x + y * y);
-	        if (l <= 0.5f)
+	        if (l <= 0.5f && l >= 0.48f)
 		        return color;
 
 	        return float4(0.0f, 0.0f, 0.0f, 0.0f);		    

@@ -26,9 +26,8 @@ namespace MarcusEngine {
 		/// 2D world
 		class World2D : public IWorld {
 		protected:	
-			bool pair = false;
-			Collide m_pair;
 			vector<shared_ptr<IRigidBody2D>> m_bodies;
+			vector<Collide> m_pairs;
 		public:
 			virtual void Update() override;
 			virtual shared_ptr<IRigidBody2D> Attach(shared_ptr<IGameObject> gameObject) override;;

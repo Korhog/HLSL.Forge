@@ -13,6 +13,9 @@
     <ClCompile Include="Phis2D.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Phis2D.h" />

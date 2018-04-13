@@ -65,6 +65,9 @@ namespace MarcusEngine {
 			static float Lenght(Vector2 v) {
 				return sqrt(v.x * v.x + v.y * v.y);
 			}
+
+			static float Dot(Vector2 n, Vector2 b);
+			Vector2 Normalize();
 		};
 
 		struct AABB {

@@ -10,8 +10,7 @@ GameObject::GameObject() {
 
 void GameObject::AddBehavour(std::shared_ptr<Mind::Behavour> behavour) {
 	m_behavours.push_back(behavour);
-	behavour->SetGameObject(this);
-		
+	behavour->SetGameObject(this);		
 }
 
 void GameObject::Update() {

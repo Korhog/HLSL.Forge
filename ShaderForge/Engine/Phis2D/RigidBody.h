@@ -21,10 +21,20 @@ namespace MarcusEngine {
 					m_gameObject->Translate(translation);
 
 					if (m_gameObject->Position.y < -2.0f || m_gameObject->Position.y > 2.0f) {
+						if (m_gameObject->Position.y < -2.0f)
+							m_gameObject->Translate(XMFLOAT3(0.0f, -2.0f - m_gameObject->Position.y, 0.0f));
+						else
+							m_gameObject->Translate(XMFLOAT3(0.0f, 2.0f - m_gameObject->Position.y, 0.0f));
+
 						m_velocity.y = -m_velocity.y;
 					};
 
 					if (m_gameObject->Position.x < -3.5f || m_gameObject->Position.x > 3.5f) {
+						if (m_gameObject->Position.x < -3.5f)
+							m_gameObject->Translate(XMFLOAT3(-3.5f - m_gameObject->Position.x, 0.0f, 0.0f));
+						else 
+							m_gameObject->Translate(XMFLOAT3( 3.5f - m_gameObject->Position.x, 0.0f, 0.0f));
+
 						m_velocity.x = -m_velocity.x;
 					};
 				}				
