@@ -18,5 +18,5 @@ Vector2 Vector2::Normalize() {
 }
 
 float Vector2::Dot(Vector2 a, Vector2 b) {
-	return 0.0f;
+	return a.x * b.x + a.y * b.y;
 }

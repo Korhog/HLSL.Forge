@@ -26,12 +26,22 @@ void World2D::Update() {
 		Vector2 v;
 		v.x = 0.0f;
 		v.y = 0.0f;
-
-		Vector2 normal = (a - b).Normalize();
-
+		
+		// Коллизия
 		if (Vector2::Lenght(a - b) < 0.5f) {
-			collide.A->Velocity = normal * Vector2::Lenght(collide.A->Velocity);
-			collide.B->Velocity = normal * Vector2::Lenght(collide.A->Velocity) * -1;
+			Vector2 normal = (b - a).Normalize();
+			Vector2 rv = collide.B->Velocity - collide.A->Velocity;
+
+			// Скаля
+			float normalVelocity = Vector2::Dot(rv, normal);
+			if (normalVelocity > 0.0f)
+				return;
+
+			// Прикладываем импульс силы
+			Vector2 impulse = normal * normalVelocity;
+
+			collide.A->Velocity += impulse;
+			collide.B->Velocity -= impulse;
 		}		
 	}
 }

@@ -216,27 +216,70 @@ namespace DXControls
 
 		// Once both shaders are loaded, create the mesh. 
 		auto createCubeTask = (createPSTask && createVSTask).then([this]() {
-			int n = 50;
+			int n = 2;
 			MarcusEngine::Math2D::Vector2 vector;
-			float speed = 0.5f;
-			for (int i = 0; i < n; i++) {		
+			// Тест физики, добавляем две окружности
+			// Движение
+			auto gameObject1 = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
+			auto body1 = m_game->World->Attach(gameObject1);
 
-				auto gameObject = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());				
+			vector.x = 0.05f;
+			vector.y = 0.0f;
+			body1->Velocity = vector;
+
+			gameObject1->Translate(XMFLOAT3(-1.0f, 0.2f, 0.0f));
+			gameObject1->Scale(XMFLOAT3(0.5f, 0.5f, 1.0f));
+
+			gameObject1->Load(m_d3dDevice.Get());
+			m_game->AddGameObject(gameObject1);
+
+			// Статика
+
+			for (int m = 0; m < 3; m++) {
+				for (int n = 0; n < 3; n++) {
+					auto gameObject = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
+					auto body = m_game->World->Attach(gameObject);
+
+					gameObject->Translate(XMFLOAT3(1.0f + m * 1.2f, -1.2f + n * 1.2f, 0.0f));
+					gameObject->Scale(XMFLOAT3(0.5f, 0.5f, 1.0f));
+
+					gameObject->Load(m_d3dDevice.Get());
+					m_game->AddGameObject(gameObject);
+				}
+			}
+
+			/*
+			float speed = 0.5f;
+			for (int i = 0; i < n; i++) {
+
+				auto gameObject = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
 
 				auto body = m_game->World->Attach(gameObject);
-				vector.x = ((float)rand() / (float)RAND_MAX);
-				vector.y = ((float)rand() / (float)RAND_MAX);
+				vector.x = -1 + i * 2.0f;
+				vector.y = 0.0f;
 
 				gameObject->Translate(XMFLOAT3(vector.x, vector.y, 0.0f));
 				gameObject->Scale(XMFLOAT3(0.5f, 0.5f, 1.0f));
 				vector = vector.Normalize() * speed / 60.0f;
 
-				body->Velocity = vector;
+				if (i == 0)
+				{
+					vector.x = 1.0f;
+					vector.y = 0.0f;
+					vector /= 600.0f;
+					body->Velocity = vector;
+				}
+				else
+				{
+					vector.x = 0.0f;
+					vector.y = 0.0f;
+					body->Velocity = vector;
+				}		
 				
 				gameObject->Load(m_d3dDevice.Get());
 				m_game->AddGameObject(gameObject);
-
 			}	
+			*/
 		});
 
 		// Once the cube is loaded, the object is ready to be rendered. 
