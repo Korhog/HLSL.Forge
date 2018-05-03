@@ -60,8 +60,7 @@ namespace DXControls
 	}
 
 	void D3DRenderPanel::CreateSizeDependentResources()
-	{
-		
+	{	
 		m_renderTargetView = nullptr;
 		m_depthStencilView = nullptr;
 
@@ -222,64 +221,36 @@ namespace DXControls
 			// Движение
 			auto gameObject1 = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
 			auto body1 = m_game->World->Attach(gameObject1);
+			body1->Mass = 10.0f;
 
-			vector.x = 0.05f;
+			vector.x = 0.02f;
 			vector.y = 0.0f;
 			body1->Velocity = vector;
 
-			gameObject1->Translate(XMFLOAT3(-1.0f, 0.2f, 0.0f));
-			gameObject1->Scale(XMFLOAT3(0.5f, 0.5f, 1.0f));
-
+			gameObject1->Translate(XMFLOAT3(-1.0f, 0.0f, 0.0f));
+			gameObject1->Scale(XMFLOAT3(1.0f, 1.0f, 1.0f));
 			gameObject1->Load(m_d3dDevice.Get());
 			m_game->AddGameObject(gameObject1);
 
 			// Статика
+			for (int m = 0; m < 5; m++) {
+				for (int n = 0; n < 5; n++) {
 
-			for (int m = 0; m < 3; m++) {
-				for (int n = 0; n < 3; n++) {
+					float scale = 1.0f / (2.0f + ((rand() / (float)RAND_MAX) * 3));
+					float mass = 2.0f * scale;
+
 					auto gameObject = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
 					auto body = m_game->World->Attach(gameObject);
+					body->Mass = mass;
+					body->Radius = 0.5f * scale;
 
-					gameObject->Translate(XMFLOAT3(1.0f + m * 1.2f, -1.2f + n * 1.2f, 0.0f));
-					gameObject->Scale(XMFLOAT3(0.5f, 0.5f, 1.0f));
+					gameObject->Translate(XMFLOAT3(1.0f + m * 0.6f, -1.2f + n * 0.6f, 0.0f));
+					gameObject->Scale(XMFLOAT3(scale, scale, 1.0f));
 
 					gameObject->Load(m_d3dDevice.Get());
 					m_game->AddGameObject(gameObject);
 				}
-			}
-
-			/*
-			float speed = 0.5f;
-			for (int i = 0; i < n; i++) {
-
-				auto gameObject = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
-
-				auto body = m_game->World->Attach(gameObject);
-				vector.x = -1 + i * 2.0f;
-				vector.y = 0.0f;
-
-				gameObject->Translate(XMFLOAT3(vector.x, vector.y, 0.0f));
-				gameObject->Scale(XMFLOAT3(0.5f, 0.5f, 1.0f));
-				vector = vector.Normalize() * speed / 60.0f;
-
-				if (i == 0)
-				{
-					vector.x = 1.0f;
-					vector.y = 0.0f;
-					vector /= 600.0f;
-					body->Velocity = vector;
-				}
-				else
-				{
-					vector.x = 0.0f;
-					vector.y = 0.0f;
-					body->Velocity = vector;
-				}		
-				
-				gameObject->Load(m_d3dDevice.Get());
-				m_game->AddGameObject(gameObject);
-			}	
-			*/
+			}			
 		});
 
 		// Once the cube is loaded, the object is ready to be rendered. 
@@ -326,7 +297,7 @@ namespace DXControls
 		
 		m_input->Update();
 		m_game->Update();
-
+		
 		// Eye is at (0,0.7,1.5), looking at point (0,-0.1,0) with the up-vector along the y-axis. 
 		static const XMVECTORF32 eye = { 0.0f, 0.0f, 1.5f, 0.0f };
 		static const XMVECTORF32 at =  { 0.0f, 0.0f, 0.0f, 0.0f };
@@ -347,6 +318,8 @@ namespace DXControls
 		animRadians = (float)fmod(m_rotation_y, XM_2PI);
 		matrix *= XMMatrixRotationY(animRadians);
 				// Set render targets to the screen. 
+
+		
 		ID3D11RenderTargetView *const targets[1] = { m_renderTargetView.Get() };
 		m_d3dContext->OMSetRenderTargets(1, targets, m_depthStencilView.Get());
 
@@ -354,7 +327,7 @@ namespace DXControls
 		m_d3dContext->ClearRenderTargetView(m_renderTargetView.Get(), DirectX::Colors::Black);
 		m_d3dContext->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-	
+		
 		m_d3dContext->IASetInputLayout(m_inputLayout.Get());
 
 		// Attach our vertex shader. 
@@ -377,11 +350,23 @@ namespace DXControls
 			nullptr,
 			0
 		);
+		
 
+		m_d2dContext->BeginDraw();
 		for each (std::shared_ptr<MarcusEngine::GameObject> gameObject in m_game->m_game_objects)
 		{
 			auto render = gameObject->Render();
 
+			D2D1_ELLIPSE ellipse;
+			D2D1_POINT_2F p = m_main_camera->WorldToScreen(
+				gameObject->Position.x,
+				gameObject->Position.y
+			);
+			
+			ellipse.radiusX = m_height / (10.0f * (1.0f / gameObject->Size.x));
+			ellipse.radiusY = m_height / (10.0f * (1.0f / gameObject->Size.x));
+			ellipse.point = p;
+			
 			// Each vertex is one instance of the VertexPositionColor struct. 
 			UINT stride = sizeof(Vertex3D);
 			UINT offset = 0;
@@ -403,13 +388,18 @@ namespace DXControls
 
 			m_d3dContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 			// Draw the objects. 
+			// Пока не рисуем 3D
+			/*
 			m_d3dContext->DrawIndexed(
 				render->GetIndexCount(),
 				0,
 				0
-			);
+			);		
+			*/
+			m_d2dContext->DrawEllipse(ellipse, m_whiteBrush.Get());
+			
 
-
+			
 			XMStoreFloat4x4(&m_constantBufferData.transform, XMMatrixTranspose(gameObject->TransformMatrix()));
 			XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(gameObject->WorldMatrix()));
 
@@ -422,7 +412,9 @@ namespace DXControls
 				0,
 				0
 			);
+			
 		}
+		m_d2dContext->EndDraw();
 		Present();		
 	}
 

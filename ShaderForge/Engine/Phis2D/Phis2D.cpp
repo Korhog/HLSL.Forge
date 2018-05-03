@@ -25,23 +25,31 @@ void World2D::Update() {
 
 		Vector2 v;
 		v.x = 0.0f;
-		v.y = 0.0f;
-		
+		v.y = 0.0f;			
+
 		// Коллизия
-		if (Vector2::Lenght(a - b) < 0.5f) {
+		if (Vector2::Lenght(a - b) < collide.A->Radius + collide.B->Radius) {
 			Vector2 normal = (b - a).Normalize();
 			Vector2 rv = collide.B->Velocity - collide.A->Velocity;
 
-			// Скаля
-			float normalVelocity = Vector2::Dot(rv, normal);
+			// Скаляр
+			float normalVelocity = Vector2::Dot(rv, normal);			
 			if (normalVelocity > 0.0f)
-				return;
+				return;	
+
+			float e = 1.0f; // Пока что абсолютно упругие тела
+
+			// Вычисляем скаляр импульса силы
+			float impulseScalar = -(1 + e) * normalVelocity;
+			impulseScalar /= collide.A->InvMass + collide.B->InvMass;
+			
+			Vector2 impulse = normal * impulseScalar;
 
 			// Прикладываем импульс силы
-			Vector2 impulse = normal * normalVelocity;
+			//Vector2 impulse = normal * normalVelocity;
 
-			collide.A->Velocity += impulse;
-			collide.B->Velocity -= impulse;
+			collide.A->Velocity -= impulse * collide.A->InvMass;
+			collide.B->Velocity += impulse * collide.B->InvMass;
 		}		
 	}
 }

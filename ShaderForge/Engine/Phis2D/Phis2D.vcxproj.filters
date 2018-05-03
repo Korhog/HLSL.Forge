@@ -25,5 +25,8 @@
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="Shape.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

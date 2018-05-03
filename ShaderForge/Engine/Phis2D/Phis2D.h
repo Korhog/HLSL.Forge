@@ -11,6 +11,7 @@ namespace MarcusEngine {
 		struct Collide {
 			shared_ptr<Phis2D::IRigidBody2D> A;
 			shared_ptr<Phis2D::IRigidBody2D> B;
+			Vector2 normal;
 		};
 
 		class IWorld abstract {

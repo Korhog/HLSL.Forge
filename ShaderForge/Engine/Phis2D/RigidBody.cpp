@@ -5,6 +5,9 @@ using namespace MarcusEngine::Core;
 using namespace MarcusEngine::Phis2D;
 
 IRigidBody2D::IRigidBody2D(std::shared_ptr<IGameObject> gameObject) {
+	Radius = 0.5f;
+	Mass = 1.0f;
+
 	m_gravity.x = 0.0f;
 	m_gravity.y = -9.8f;
 

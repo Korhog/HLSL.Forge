@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pch.h"
+#include <d2d1_2.h> 
 #include <concrt.h> 
 
 using namespace DirectX;
@@ -42,6 +43,7 @@ namespace DXControls
 		Microsoft::WRL::ComPtr<ID2D1Device> m_d2dDevice;
 		Microsoft::WRL::ComPtr<ID2D1DeviceContext> m_d2dContext;
 		Microsoft::WRL::ComPtr<ID2D1Bitmap1> m_d2dTargetBitmap;
+		Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> m_whiteBrush;
 
 		D2D1_COLOR_F m_backgroundColor;
 		DXGI_ALPHA_MODE m_alphaMode;

@@ -8,16 +8,24 @@ namespace MarcusEngine {
 	namespace Phis2D {
 		class IRigidBody2D abstract {
 		protected:
+			float m_mass;
+			float m_invertedMass;
+
 			Vector2 m_gravity;
 			Vector2 m_velocity;
 			std::shared_ptr<Core::IGameObject> m_gameObject;
 		public:
+			// Тестовый радиус
+			float Radius;
+
 			IRigidBody2D() {};
 			IRigidBody2D(std::shared_ptr<IGameObject> gameObject);
 
 			void Update() {
 				if (m_gameObject) {
 					XMFLOAT3 translation = XMFLOAT3(m_velocity.x, m_velocity.y, 0.0f);
+					//m_velocity += m_gravity / 6000.0f;
+
 					m_gameObject->Translate(translation);
 
 					if (m_gameObject->Position.y < -2.0f || m_gameObject->Position.y > 2.0f) {
@@ -40,6 +48,27 @@ namespace MarcusEngine {
 				}				
 			}
 #pragma region Property
+			// Масса
+			float GetMass() { return m_mass; }
+			float GetInvMass() { return m_invertedMass; }
+			void SetMass(float mass) { 
+				m_mass = mass;
+				if (mass > 0.0f) {
+					m_invertedMass = 1.0f / mass;
+				}
+				else {
+					m_mass = 0.0f;
+					m_invertedMass = 0.0f;
+				}
+			}
+
+			// Масса
+			__declspec(property(get = GetMass, put = SetMass)) float Mass;
+			
+			// Инвертированная масса
+			__declspec(property(get = GetInvMass)) float InvMass;
+
+
 			__declspec(property(get = GetVelocity, put = SetVelocity)) Vector2 Velocity;
 			// Скорость
 			Vector2 GetVelocity() { return m_velocity; }

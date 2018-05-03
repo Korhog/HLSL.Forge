@@ -12,24 +12,23 @@ namespace MarcusEngine {
 
 			// operators
 			
-			Vector2 operator+=(const Vector2& v) {
-				Vector2 result;
-				result.x = this->x + v.x;
-				result.y = this->y + v.y;
-				return result;
+			void operator+=(const Vector2& v) {
+				this->x += v.x;
+				this->y += v.y;
 			}
-			Vector2 operator-=(const Vector2& v) {
-				Vector2 result;
-				result.x = this->x - v.x;
-				result.y = this->y - v.y;
-				return result;
+
+			void operator-=(const Vector2& v) {
+				this->x -= v.x;
+				this->y -= v.y;
 			}
+
 			Vector2 operator+(const Vector2& v) {
 				Vector2 result;
 				result.x = this->x + v.x;
 				result.y = this->y + v.y;
 				return result;
 			}
+
 			Vector2 operator-(const Vector2& v) {
 				Vector2 result;
 				result.x = this->x - v.x;
@@ -49,17 +48,14 @@ namespace MarcusEngine {
 				result.y = this->y * v;
 				return result;
 			}
-			Vector2 operator/=(const float& v) {
-				Vector2 result;
-				result.x = this->x / v;
-				result.y = this->y / v;
-				return result;
+			void operator/=(const float& v) {
+				this->x /= v;
+				this->y /= v;				
 			}
-			Vector2 operator*=(const float& v) {
-				Vector2 result;
-				result.x = this->x * v;
-				result.y = this->y * v;
-				return result;
+
+			void operator*=(const float& v) {
+				this->x * v;
+				this->y * v;
 			}		
 			static float Lenght(Vector2 v) {
 				return sqrt(v.x * v.x + v.y * v.y);

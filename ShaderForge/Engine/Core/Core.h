@@ -10,7 +10,7 @@ namespace MarcusEngine {
 			IGameObject();
 			__declspec(property(get = GetPosition, put = SetPosition)) XMFLOAT3 Position;
 			__declspec(property(get = GetRotation, put = SetRotation)) XMFLOAT3 Rotation;
-			__declspec(property(get = GetScale, put = SetSize)) XMFLOAT3 Size;
+			__declspec(property(get = GetSize, put = SetSize)) XMFLOAT3 Size;
 
 			XMMATRIX TransformMatrix();
 			XMMATRIX WorldMatrix();

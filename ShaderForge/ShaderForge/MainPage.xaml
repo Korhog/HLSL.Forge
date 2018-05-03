@@ -12,33 +12,35 @@
     <Grid Background="#1d1d1d">
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition/>            
+            <RowDefinition Height="Auto"/>            
         </Grid.RowDefinitions>
 
-
-        <ScrollViewer x:Name="scroll" UseLayoutRounding="True" ZoomMode="Enabled" Grid.Row="1">
+        <Grid Grid.Row="1" Visibility="Collapsed">
+            <ScrollViewer x:Name="scroll" UseLayoutRounding="True" ZoomMode="Enabled" Grid.Row="1">
             <Canvas x:Name="canvas" Width="1000" Height="1000" UseLayoutRounding="True" Background="Transparent"/>
         </ScrollViewer>
 
-        <editor:TreeSelector x:Name="tree" 
-                             Grid.Row="1"
-                             Foreground="White"
-                             Width="250" 
-                             MaxHeight="300" 
-                             VerticalAlignment="Top" 
-                             Margin="10"
-                             HorizontalAlignment="Left"/>
+       
+            <editor:TreeSelector x:Name="tree" 
+                                 Grid.Row="1"
+                                 Foreground="White"
+                                 Width="250" 
+                                 MaxHeight="300" 
+                                 VerticalAlignment="Top" 
+                                 Margin="10"
+                                 HorizontalAlignment="Left"/>
 
-        <Button Content="Compile" 
-                Click="OnCompile" 
-                Grid.Row="1" 
-                Margin="10"
-                Foreground="White"
-                VerticalAlignment="Top" 
-                HorizontalAlignment="Center"/>
-
+            <Button Content="Compile" 
+                    Click="OnCompile" 
+                    Grid.Row="1" 
+                    Margin="10"
+                    Foreground="White"
+                    VerticalAlignment="Top" 
+                    HorizontalAlignment="Center"/>
+        </Grid>
         <Border Grid.Row="0" Background="#0d0d0d" VerticalAlignment="Stretch">
-                <dx:D3DRenderPanel x:Name="dx" />
+                    <dx:D3DRenderPanel x:Name="dx" />
         </Border>
+        
     </Grid> 
 </Page>

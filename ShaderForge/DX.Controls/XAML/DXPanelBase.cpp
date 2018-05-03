@@ -229,7 +229,14 @@ namespace DXControls
 		));
 
 		m_d2dContext->SetDpi(m_dipsPerInch * m_compositionScaleX, m_dipsPerInch * m_compositionScaleY);
-		m_d2dContext->SetTarget(m_d2dTargetBitmap.Get());		
+		m_d2dContext->SetTarget(m_d2dTargetBitmap.Get());	
+
+		DX::ThrowIfFailed(
+			m_d2dContext->CreateSolidColorBrush(
+				D2D1::ColorF(D2D1::ColorF::White),
+				&m_whiteBrush
+			)
+		);
 	}
 
 	void DXPanelBase::Present() {
