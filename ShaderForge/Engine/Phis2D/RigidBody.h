@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "Shape.h"
 
 namespace MarcusEngine {
 	using namespace Math2D;
@@ -17,6 +18,7 @@ namespace MarcusEngine {
 		public:
 			// Тестовый радиус
 			float Radius;
+			IShape* Shape;
 
 			IRigidBody2D() {};
 			IRigidBody2D(std::shared_ptr<IGameObject> gameObject);

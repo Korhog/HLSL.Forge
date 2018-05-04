@@ -15,6 +15,7 @@
 #include <MoveBehavour.h>
 #include <GameObject.h>
 #include <random>  
+#include <Shape.h>
 
 #include <d3dcompiler.h>
 //#pragma comment(lib, "d3dcompiler.lib")
@@ -88,7 +89,7 @@ namespace DXControls
 			m_renderTargetHeight
 		);
 
-		m_main_camera->UpdateViewport(m_renderTargetWidth, m_renderTargetHeight);
+		m_main_camera->UpdateViewport(m_width, m_height);
 		XMMATRIX pm = m_main_camera->Projection;
 
 		XMStoreFloat4x4(
@@ -221,13 +222,15 @@ namespace DXControls
 			// Движение
 			auto gameObject1 = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
 			auto body1 = m_game->World->Attach(gameObject1);
-			body1->Mass = 10.0f;
+			body1->Mass = 3.0f;
+
+			gameObject1->SetRigidBody(body1);
 
 			vector.x = 0.02f;
 			vector.y = 0.0f;
 			body1->Velocity = vector;
 
-			gameObject1->Translate(XMFLOAT3(-1.0f, 0.0f, 0.0f));
+			gameObject1->Translate(XMFLOAT3(0.0f, 0.0f, 0.0f));
 			gameObject1->Scale(XMFLOAT3(1.0f, 1.0f, 1.0f));
 			gameObject1->Load(m_d3dDevice.Get());
 			m_game->AddGameObject(gameObject1);
@@ -241,9 +244,11 @@ namespace DXControls
 
 					auto gameObject = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
 					auto body = m_game->World->Attach(gameObject);
+					body->Shape = new MarcusEngine::Math2D::RectShape();
 					body->Mass = mass;
 					body->Radius = 0.5f * scale;
 
+					gameObject->SetRigidBody(body);
 					gameObject->Translate(XMFLOAT3(1.0f + m * 0.6f, -1.2f + n * 0.6f, 0.0f));
 					gameObject->Scale(XMFLOAT3(scale, scale, 1.0f));
 
@@ -357,15 +362,7 @@ namespace DXControls
 		{
 			auto render = gameObject->Render();
 
-			D2D1_ELLIPSE ellipse;
-			D2D1_POINT_2F p = m_main_camera->WorldToScreen(
-				gameObject->Position.x,
-				gameObject->Position.y
-			);
-			
-			ellipse.radiusX = m_height / (10.0f * (1.0f / gameObject->Size.x));
-			ellipse.radiusY = m_height / (10.0f * (1.0f / gameObject->Size.x));
-			ellipse.point = p;
+
 			
 			// Each vertex is one instance of the VertexPositionColor struct. 
 			UINT stride = sizeof(Vertex3D);
@@ -396,7 +393,42 @@ namespace DXControls
 				0
 			);		
 			*/
-			m_d2dContext->DrawEllipse(ellipse, m_whiteBrush.Get());
+
+			if (gameObject->RigidBody2D->Shape) {
+				D2D1_RECT_F rect;
+				float r = gameObject->RigidBody2D->Radius;
+
+				D2D1_POINT_2F p1 = m_main_camera->WorldToScreen(
+					gameObject->Position.x - r,
+					gameObject->Position.y - r
+				);
+
+				D2D1_POINT_2F p2 = m_main_camera->WorldToScreen(
+					gameObject->Position.x + r,
+					gameObject->Position.y + r
+				);
+
+				rect.left = p1.x;				
+				rect.top = p1.y;
+
+				rect.right = p2.x;
+				rect.bottom = p2.y;
+
+				m_d2dContext->DrawRectangle(rect, m_whiteBrush.Get());
+			}
+			else {
+				D2D1_ELLIPSE ellipse;
+				D2D1_POINT_2F p = m_main_camera->WorldToScreen(
+					gameObject->Position.x,
+					gameObject->Position.y
+				);
+
+				ellipse.radiusX = m_height / (10.0f * (1.0f / gameObject->Size.x));
+				ellipse.radiusY = m_height / (10.0f * (1.0f / gameObject->Size.x));
+				ellipse.point = p;
+
+				m_d2dContext->DrawEllipse(ellipse, m_whiteBrush.Get());
+			}
 			
 
 			

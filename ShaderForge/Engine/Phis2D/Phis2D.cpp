@@ -11,49 +11,52 @@ void World2D::Update() {
 	}
 
 	for each (Collide collide in m_pairs) {
-		//continue;
-		auto posA = collide.A->GameObject->Position;
-		auto posB = collide.B->GameObject->Position;
-
-		Vector2 a;
-		a.x = posA.x;
-		a.y = posA.y;
-
-		Vector2 b;
-		b.x = posB.x;
-		b.y = posB.y;
-
-		Vector2 v;
-		v.x = 0.0f;
-		v.y = 0.0f;			
-
-		// Коллизия
-		if (Vector2::Lenght(a - b) < collide.A->Radius + collide.B->Radius) {
-			Vector2 normal = (b - a).Normalize();
-			Vector2 rv = collide.B->Velocity - collide.A->Velocity;
-
-			// Скаляр
-			float normalVelocity = Vector2::Dot(rv, normal);			
-			if (normalVelocity > 0.0f)
-				return;	
-
-			float e = 1.0f; // Пока что абсолютно упругие тела
-
-			// Вычисляем скаляр импульса силы
-			float impulseScalar = -(1 + e) * normalVelocity;
-			impulseScalar /= collide.A->InvMass + collide.B->InvMass;
-			
-			Vector2 impulse = normal * impulseScalar;
-
-			// Прикладываем импульс силы
-			//Vector2 impulse = normal * normalVelocity;
-
-			collide.A->Velocity -= impulse * collide.A->InvMass;
-			collide.B->Velocity += impulse * collide.B->InvMass;
-		}		
+		ResolveCollision(
+			collide.A.get(),
+			collide.B.get()
+		);
 	}
 }
 
+void World2D::ResolveCollision(IRigidBody2D* A, IRigidBody2D* B) {
+	//continue;
+	auto posA = A->GameObject->Position;
+	auto posB = B->GameObject->Position;
+
+	Vector2 a;
+	a.x = posA.x;
+	a.y = posA.y;
+
+	Vector2 b;
+	b.x = posB.x;
+	b.y = posB.y;
+
+	Vector2 v;
+	v.x = 0.0f;
+	v.y = 0.0f;
+
+	// Коллизия
+	if (Vector2::Lenght(a - b) < A->Radius + B->Radius) {
+		Vector2 normal = (b - a).Normalize();
+		Vector2 rv = B->Velocity - A->Velocity;
+
+		// Скаляр
+		float normalVelocity = Vector2::Dot(rv, normal);
+		if (normalVelocity > 0.0f)
+			return;
+
+		float e = 1.0f; // Пока что абсолютно упругие тела
+
+		// Вычисляем скаляр импульса силы
+		float impulseScalar = -(1 + e) * normalVelocity;
+		impulseScalar /= A->InvMass + B->InvMass;
+
+		Vector2 impulse = normal * impulseScalar;
+
+		A->Velocity -= impulse * A->InvMass;
+		B->Velocity += impulse * B->InvMass;
+	}
+}
 
 
 

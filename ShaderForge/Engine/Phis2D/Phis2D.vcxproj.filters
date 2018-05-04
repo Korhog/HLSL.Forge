@@ -16,6 +16,9 @@
     <ClCompile Include="Vector2.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="CircleShape.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Phis2D.h" />

@@ -14,9 +14,10 @@ namespace MarcusEngine {
 			Vector2 normal;
 		};
 
+
 		class IWorld abstract {
 		public:
-			virtual void Update() abstract;
+			virtual void Update() abstract;			
 			virtual shared_ptr<Phis2D::IRigidBody2D> Attach(shared_ptr<IGameObject> gameObject) abstract;
 		};
 	}
@@ -30,8 +31,10 @@ namespace MarcusEngine {
 			vector<shared_ptr<IRigidBody2D>> m_bodies;
 			vector<Collide> m_pairs;
 		public:
-			virtual void Update() override;
-			virtual shared_ptr<IRigidBody2D> Attach(shared_ptr<IGameObject> gameObject) override;;
+			virtual void Update() override;			
+			virtual shared_ptr<IRigidBody2D> Attach(shared_ptr<IGameObject> gameObject) override;
+		protected:
+			void ResolveCollision(IRigidBody2D* A, IRigidBody2D* B);
 		};
 	}
 }
