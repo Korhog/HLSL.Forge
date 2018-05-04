@@ -38,8 +38,8 @@
                     VerticalAlignment="Top" 
                     HorizontalAlignment="Center"/>
         </Grid>
-        <Border Grid.Row="0" Background="#0d0d0d" VerticalAlignment="Stretch">
-                    <dx:D3DRenderPanel x:Name="dx" />
+        <Border Grid.Row="0" VerticalAlignment="Stretch">
+                    <dx:D3DRenderPanel x:Name="dx"/>
         </Border>
         
     </Grid> 

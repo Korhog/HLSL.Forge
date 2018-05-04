@@ -16,6 +16,7 @@
 #include <GameObject.h>
 #include <random>  
 #include <Shape.h>
+#include <typeinfo>
 
 #include <d3dcompiler.h>
 //#pragma comment(lib, "d3dcompiler.lib")
@@ -220,13 +221,15 @@ namespace DXControls
 			MarcusEngine::Math2D::Vector2 vector;
 			// Тест физики, добавляем две окружности
 			// Движение
+			
+			/*
 			auto gameObject1 = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
 			auto body1 = m_game->World->Attach(gameObject1);
 			body1->Mass = 3.0f;
 
 			gameObject1->SetRigidBody(body1);
 
-			vector.x = 0.02f;
+			vector.x = 0.00f;
 			vector.y = 0.0f;
 			body1->Velocity = vector;
 
@@ -234,22 +237,30 @@ namespace DXControls
 			gameObject1->Scale(XMFLOAT3(1.0f, 1.0f, 1.0f));
 			gameObject1->Load(m_d3dDevice.Get());
 			m_game->AddGameObject(gameObject1);
+			*/
 
 			// Статика
 			for (int m = 0; m < 5; m++) {
+				//continue;
 				for (int n = 0; n < 5; n++) {
 
-					float scale = 1.0f / (2.0f + ((rand() / (float)RAND_MAX) * 3));
-					float mass = 2.0f * scale;
+					float scale = 0.5f;
+					float mass = 0.0f;
+
+					if (n != 0) {
+						scale = 1.0f / (2.0f + ((rand() / (float)RAND_MAX) * 3));
+						mass = 2.0f * scale;
+					}
 
 					auto gameObject = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
 					auto body = m_game->World->Attach(gameObject);
-					body->Shape = new MarcusEngine::Math2D::RectShape();
+					body->Shape = new MarcusEngine::Math2D::CircleShape();
 					body->Mass = mass;
 					body->Radius = 0.5f * scale;
 
 					gameObject->SetRigidBody(body);
-					gameObject->Translate(XMFLOAT3(1.0f + m * 0.6f, -1.2f + n * 0.6f, 0.0f));
+					gameObject->Translate(XMFLOAT3(1.0f + m * 0.6f + n * 0.02f, -1.2f + n * 0.6f, 0.0f));
+					//gameObject->Translate(XMFLOAT3(1.0f + m * 0.6f, 0.0f, 0.0f));
 					gameObject->Scale(XMFLOAT3(scale, scale, 1.0f));
 
 					gameObject->Load(m_d3dDevice.Get());
@@ -329,7 +340,7 @@ namespace DXControls
 		m_d3dContext->OMSetRenderTargets(1, targets, m_depthStencilView.Get());
 
 		// Clear the back buffer and depth stencil view. 
-		m_d3dContext->ClearRenderTargetView(m_renderTargetView.Get(), DirectX::Colors::Black);
+		m_d3dContext->ClearRenderTargetView(m_renderTargetView.Get(), DirectX::Colors::DarkSlateBlue);
 		m_d3dContext->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 		
@@ -358,6 +369,22 @@ namespace DXControls
 		
 
 		m_d2dContext->BeginDraw();
+
+		//Рисуем границы
+
+		D2D1_RECT_F screen;
+
+		D2D1_POINT_2F p1 = m_main_camera->WorldToScreen(-3.5f, 2.0f);
+		D2D1_POINT_2F p2 = m_main_camera->WorldToScreen(3.5f, -2.0f);
+
+		screen.left = p1.x;
+		screen.top = p1.y;
+
+		screen.right = p2.x;
+		screen.bottom = p2.y;
+
+		m_d2dContext->DrawRectangle(screen, m_whiteBrush.Get());
+
 		for each (std::shared_ptr<MarcusEngine::GameObject> gameObject in m_game->m_game_objects)
 		{
 			auto render = gameObject->Render();
@@ -394,7 +421,7 @@ namespace DXControls
 			);		
 			*/
 
-			if (gameObject->RigidBody2D->Shape) {
+			if (gameObject->RigidBody2D->Shape && dynamic_cast<MarcusEngine::Math2D::RectShape*>(gameObject->RigidBody2D->Shape)) {
 				D2D1_RECT_F rect;
 				float r = gameObject->RigidBody2D->Radius;
 

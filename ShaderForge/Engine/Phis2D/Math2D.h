@@ -7,6 +7,16 @@ namespace MarcusEngine {
 		const float G = 9.8f;
 
 		struct Vector2 {
+			Vector2() {
+				this->x = 0;
+				this->y = 0;
+			}
+
+			Vector2(float x, float y) {
+				this->x = x;
+				this->y = y;
+			}
+
 			float x;
 			float y;
 
@@ -56,7 +66,12 @@ namespace MarcusEngine {
 			void operator*=(const float& v) {
 				this->x * v;
 				this->y * v;
-			}		
+			}
+
+			bool operator==(const Vector2& v) {
+				return this->x == v.x && this->y == v.y;
+			}
+
 			static float Lenght(Vector2 v) {
 				return sqrt(v.x * v.x + v.y * v.y);
 			}

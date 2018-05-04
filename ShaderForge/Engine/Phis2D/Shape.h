@@ -20,7 +20,9 @@ namespace MarcusEngine {
 
 		class RectShape : public IShape {
 		public:
-			float Radius;
+			float Width;
+			float Height;
+
 			virtual void DrawShape(ID2D1DeviceContext* context) override {};
 		};	
 
