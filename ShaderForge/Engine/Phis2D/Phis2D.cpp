@@ -35,7 +35,7 @@ void World2D::ResolveCollision(ICollide* collide) {
 		if (dynamic_cast<MarcusEngine::Math2D::RectShape*>(collide->B->Shape)) {
 			ResolveCollisionRR(collide);
 		}
-	}
+	}	
 }
 
 float Clamp(float min, float max, float v) {
@@ -254,15 +254,15 @@ void World2D::PositionalCorrection(ICollide * collide)
 	IRigidBody2D *B = collide->B.get();
 
 	const float percent = 0.2; // обычно от 20% до 80%
-	const float slop = 0.03f;  // обычно от 0.01 до 0.1
+	const float slop = 0.00f;  // обычно от 0.01 до 0.1
 
-	Vector2 correction = collide->normal * max(collide->penetration - slop, 0.0f) / (A->InvMass + B->InvMass) * percent;
+	Vector2 correction = collide->normal * max(collide->penetration - slop, 0.0f) / 60.0f; //  * / (A->InvMass + B->InvMass) * percent);
 	
 	Vector2 a = correction * A->InvMass * -1;
 	Vector2 b = correction * B->InvMass ;
 	
-	A->GameObject->Translate(XMFLOAT3(a.x, a.y, 0.0f));
-	B->GameObject->Translate(XMFLOAT3(b.x, b.y, 0.0f));
+	A->Velocity += a;
+	B->Velocity += b;
 }
 
 std::shared_ptr<IRigidBody2D> World2D::Attach(std::shared_ptr<IGameObject> gameObject, IShape* shape) {

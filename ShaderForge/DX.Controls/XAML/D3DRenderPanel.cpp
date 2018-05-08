@@ -220,16 +220,15 @@ namespace DXControls
 			int n = 2;
 			MarcusEngine::Math2D::Vector2 vector;
 			// Тест физики, добавляем две окружности
-			// Движение
+			// Движение		
 			
-			/*
 			auto gameObject1 = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
 			auto body1 = m_game->World->Attach(gameObject1);
 			body1->Mass = 3.0f;
 
 			gameObject1->SetRigidBody(body1);
 
-			vector.x = 0.00f;
+			vector.x = 0.05f;
 			vector.y = 0.0f;
 			body1->Velocity = vector;
 
@@ -237,7 +236,7 @@ namespace DXControls
 			gameObject1->Scale(XMFLOAT3(1.0f, 1.0f, 1.0f));
 			gameObject1->Load(m_d3dDevice.Get());
 			m_game->AddGameObject(gameObject1);
-			*/
+			
 
 			// Статика
 			for (int m = 0; m < 5; m++) {
@@ -247,10 +246,10 @@ namespace DXControls
 					float scale = 0.5f;
 					float mass = 0.0f;
 
-					if (n != 0) {
+					//if (n != 0) {
 						scale = 1.0f / (2.0f + ((rand() / (float)RAND_MAX) * 3));
 						mass = 2.0f * scale;
-					}
+					//}
 
 					auto gameObject = std::shared_ptr<MarcusEngine::GameObject>(new MarcusEngine::GameObject());
 					auto body = m_game->World->Attach(gameObject);
